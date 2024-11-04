@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Examples &mdash; BARVINN  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Credits and Publications" href="credits.html" />
+    <link rel="prev" title="FPGA Prototyping" href="fpga_prototyping.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #DDDDDD" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            BARVINN
+              <img src="_static/BARVINN_LOGO.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design.html">Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="verification.html">Verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="software.html">Software Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fpga_prototyping.html">FPGA Prototyping</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#environment-setup">Environment Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#matrix-multiplication">Matrix Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#convolution">Convolution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#classification">Classification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#segmentation">Segmentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits and Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acknowledgement.html">Acknowledgement</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #DDDDDD" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BARVINN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/examples.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="examples">
+<span id="id1"></span><h1>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h1>
+<section id="environment-setup">
+<h2>Environment Setup<a class="headerlink" href="#environment-setup" title="Link to this heading"></a></h2>
+<p>To run a neural network model using BARVINN, you will need to use 4 different repositories:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/hossein1387/Accelerator">BARVINN</a>. : The top module repo that re-uses pito and MVU project.</p></li>
+<li><p><a class="reference external" href="https://github.com/hossein1387/pito_riscv">PITO_RISCV</a>. : The barrel RISC-V processor.</p></li>
+<li><p><a class="reference external" href="https://github.com/obilaniu/MVU">MVU</a>. : The Matrix Vector Unit accelerator.</p></li>
+<li><p><a class="reference external" href="https://github.com/hossein1387/MVU_Code_Gen">MVU_Code_Gen</a>. : A repository that contains python libraries to generate configuration code for MVU.</p></li>
+</ul>
+<p>We have added the last three repositories as a gitmodule to BARVINN repository. Hence, you only need to clone BARVINN repository as below:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/hossein1387/BARVINN
+<span class="nb">cd</span><span class="w"> </span>BARVINN
+git<span class="w"> </span>submodule<span class="w"> </span>update<span class="w"> </span>--init<span class="w"> </span>--recursive
+</pre></div>
+</div>
+<p>As mentioned earlier, BARVINN requires RISC-V GCC that supports RV32I. You can either install RISC-V GCC with your favorite OS package manager, or you can follow <a class="reference external" href="https://github.com/cliffordwolf/picorv32#building-a-pure-rv32i-toolchain">picorv32</a>. project to build a pure RV32I toolchain. The following are some of the examples that you can run on BARVINN.</p>
+</section>
+<section id="matrix-multiplication">
+<h2>Matrix Multiplication<a class="headerlink" href="#matrix-multiplication" title="Link to this heading"></a></h2>
+<p>In this example code, we want to program <cite>MVU[0]</cite> to perform a matrix multiplication. Note that we do not include code for transferring data into MVU’s feature map and weight memory. Here we are simply assuming that the data is in the correct format and layout. The following code performs a matrix multiplication between input feature map vector of size <cite>[1x1x1x64]</cite> at 2-bit precision with a weight matrix of size <cite>[1x64x64x16]</cite> at 2-bit precision. The output result is written to <cite>0x400</cite> with 2-bit precision. As we mentioned in the <cite>design</cite> section, the controller (<cite>pito</cite>) configures a job by setting the appropriate CSR registers and then kick starts the job by writing into <cite>mvucommand</cite> CSR register. Although one can monitor the job status by polling the <cite>mvustatus</cite> register, MVU will send an interrupt once the job is done and ready to be read. In the following code block, we first enable global and MVU specific irq (in <cite>enable_mvu_irq</cite> function). We then set the address for the MVU irq handler to service the interrupt (in <cite>__startup_code__</cite>). We then program a matrix multiply job in <cite>mat_mul</cite> function. At this point, we can start to prepare and configure the next job, or we can just wait for an interrupt. For this simple example, we wait for an interrupt from <cite>MVU</cite>. Finally, if everything works as expected, we should see <cite>OKn</cite> in register <cite>a1</cite>, <cite>a2</cite> and <cite>a3</cite> and in memory address <cite>0x1000</cite>.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;pito_def.h&quot;</span>
+
+<span class="n">jal</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="n">enable_mvu_irq</span>
+<span class="n">jal</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="n">__startup_code__</span>
+<span class="n">jal</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="n">mat_mul</span>
+<span class="n">jal</span><span class="w"> </span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="n">wait_for_mvu_irq</span>
+<span class="n">jal</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="n">prog_end</span>
+
+
+<span class="c1">// in startup code, we need to set the following:</span>
+<span class="c1">//   -&gt; mtvec addresses</span>
+<span class="c1">//</span>
+<span class="nl">__startup_code__</span><span class="p">:</span>
+<span class="w">    </span><span class="c1">// addi x1, x0, pito_mtvec_mask</span>
+<span class="w">    </span><span class="c1">// creating mtvec mask</span>
+<span class="w">    </span><span class="n">lui</span><span class="w">  </span><span class="n">a0</span><span class="p">,</span><span class="w"> </span><span class="o">%</span><span class="n">hi</span><span class="p">(</span><span class="n">mvu_irq_handler</span><span class="p">)</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">a0</span><span class="p">,</span><span class="w"> </span><span class="n">a0</span><span class="p">,</span><span class="w"> </span><span class="o">%</span><span class="n">lo</span><span class="p">(</span><span class="n">mvu_irq_handler</span><span class="w"> </span><span class="p">)</span>
+<span class="w">    </span><span class="n">csrw</span><span class="w"> </span><span class="n">mtvec</span><span class="p">,</span><span class="w"> </span><span class="n">a0</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">ra</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">ret</span>
+
+<span class="nl">wait_for_mvu_irq</span><span class="p">:</span>
+<span class="w">    </span><span class="n">csrr</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="n">mcause</span>
+<span class="w">    </span><span class="n">srli</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="mi">31</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="c1">// wait for mcause[31] interrupt to go high</span>
+<span class="w">    </span><span class="n">bne</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">wait_for_mvu_irq</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">ra</span><span class="p">,</span><span class="w"> </span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">ret</span>
+
+<span class="nl">mvu_irq_handler</span><span class="p">:</span>
+<span class="w">    </span><span class="c1">// make sure global interrupt is disabled</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mstatus</span><span class="p">,</span><span class="w"> </span><span class="mh">0x0</span>
+<span class="w">    </span><span class="c1">// first things first, clear mvu intterupts pending bit while processing current irq.</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">slli</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span>
+<span class="w">    </span><span class="n">csrc</span><span class="w"> </span><span class="n">mip</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span>
+<span class="w">    </span><span class="c1">// do whatever to make MVU happy</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">x0</span><span class="p">,</span><span class="w"> </span><span class="n">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="c1">// we can now start processing incoming interrupts</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">gp</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">jal</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="n">enable_mvu_irq</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">ra</span><span class="p">,</span><span class="w"> </span><span class="n">gp</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">mret</span>
+
+<span class="nl">enable_mvu_irq</span><span class="p">:</span>
+<span class="w">    </span><span class="c1">// make sure global interrupt is enabled</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mstatus</span><span class="p">,</span><span class="w"> </span><span class="mh">0x8</span>
+<span class="w">    </span><span class="c1">// set MVU specific MIE bit aka mie[16]</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="n">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">slli</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span>
+<span class="w">    </span><span class="n">csrw</span><span class="w"> </span><span class="n">mie</span><span class="p">,</span><span class="w"> </span><span class="n">t0</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">ra</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">ret</span>
+
+<span class="nl">disable_mvu_irq</span><span class="p">:</span>
+<span class="w">    </span><span class="c1">// clear MVU specific MIE bit</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="n">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">slli</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span>
+<span class="w">    </span><span class="n">not</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="n">t0</span>
+<span class="w">    </span><span class="n">csrw</span><span class="w"> </span><span class="n">mie</span><span class="p">,</span><span class="w"> </span><span class="n">t0</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">ra</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">ret</span>
+
+<span class="nl">clear_mvu_pending_irq</span><span class="p">:</span>
+<span class="w">    </span><span class="n">csrrci</span><span class="w"> </span><span class="n">x0</span><span class="p">,</span><span class="w"> </span><span class="n">mip</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">ret</span>
+
+<span class="nl">mat_mul</span><span class="p">:</span>
+<span class="w">    </span><span class="n">addi</span><span class="w">  </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">addi</span><span class="w">  </span><span class="n">t2</span><span class="p">,</span><span class="w"> </span><span class="n">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="n">add</span><span class="w">   </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">t2</span><span class="w">               </span><span class="c1">// set weight precision to 2</span>
+<span class="w">    </span><span class="n">slli</span><span class="w">  </span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="n">t2</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="w">                </span><span class="c1">// set input precision to 2</span>
+<span class="w">    </span><span class="n">add</span><span class="w">   </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">t3</span>
+<span class="w">    </span><span class="n">slli</span><span class="w">  </span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="n">t2</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="w">                </span><span class="c1">// set output precision to 2</span>
+<span class="w">    </span><span class="n">add</span><span class="w">   </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">t3</span>
+<span class="w">    </span><span class="n">csrw</span><span class="w">  </span><span class="n">mvuprecision</span><span class="p">,</span><span class="w">  </span><span class="n">t1</span>
+
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuquant</span><span class="w">     </span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="w">       </span><span class="c1">// set quant_msbidx to 10</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuwbaseptr</span><span class="w">  </span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w">        </span><span class="c1">// set weight address to 0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuibaseptr</span><span class="w">  </span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w">        </span><span class="c1">// set input address to 0</span>
+
+<span class="w">    </span><span class="n">addi</span><span class="w">  </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">slli</span><span class="w">  </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="w">               </span><span class="c1">// set output address to 0x400</span>
+<span class="w">    </span><span class="n">csrw</span><span class="w"> </span><span class="n">mvuobaseptr</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">t1</span>
+
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuwjump_0</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="w">           </span><span class="c1">// 1 tile back move x 2 bits</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuwjump_1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="w">            </span><span class="c1">// 1 tile ahead move x 2 bits</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuwjump_2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuwjump_3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuwjump_4</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuijump_0</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="w">           </span><span class="c1">// 1 tile back move x 2 bits</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuijump_1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuijump_2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuijump_3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuijump_4</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvusjump_0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvusjump_1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvubjump_0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvubjump_1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuojump_0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuojump_1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuojump_2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuojump_3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuojump_4</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuwlength_1</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">1</span><span class="w">       </span><span class="c1">// 2 tiles in width</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuwlength_2</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">3</span><span class="w">       </span><span class="c1">// number bit combinations i.e. 2x2 bits</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuwlength_3</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">1</span><span class="w">       </span><span class="c1">// 2 tiles in height</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuwlength_4</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuilength_1</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">1</span><span class="w">       </span><span class="c1">// 2 tiles in height</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuilength_2</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="w">       </span><span class="c1">// number bit combinations</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuilength_3</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="w">       </span><span class="c1">// 2 tiles in width of matrix operand</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuilength_4</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuolength_1</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuolength_2</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuolength_3</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuolength_4</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">0</span>
+
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">slli</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="w">                </span><span class="c1">// mul mode 01</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span>
+<span class="w">    </span><span class="n">csrw</span><span class="w"> </span><span class="n">mvucommand</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="w">           </span><span class="c1">// Kick start MVU, 2 tiles x 2 tiles x 2bit x 2bits</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">ra</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">ret</span>
+
+<span class="c1">// Done with our awesome program!</span>
+<span class="nl">prog_end</span><span class="p">:</span>
+<span class="w">    </span><span class="n">lui</span><span class="w"> </span><span class="n">a0</span><span class="p">,</span><span class="mh">0x1000</span><span class="o">&gt;&gt;</span><span class="mi">12</span>
+<span class="w">    </span><span class="n">addi</span><span class="w">  </span><span class="n">a1</span><span class="p">,</span><span class="n">zero</span><span class="p">,</span><span class="sc">&#39;O&#39;</span>
+<span class="w">    </span><span class="n">addi</span><span class="w">  </span><span class="n">a2</span><span class="p">,</span><span class="n">zero</span><span class="p">,</span><span class="sc">&#39;K&#39;</span>
+<span class="w">    </span><span class="n">addi</span><span class="w">  </span><span class="n">a3</span><span class="p">,</span><span class="n">zero</span><span class="p">,</span><span class="sc">&#39;\n&#39;</span>
+<span class="w">    </span><span class="n">sw</span><span class="w">  </span><span class="n">a1</span><span class="p">,</span><span class="mi">0</span><span class="p">(</span><span class="n">a0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">sw</span><span class="w">  </span><span class="n">a2</span><span class="p">,</span><span class="mi">0</span><span class="p">(</span><span class="n">a0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">sw</span><span class="w">  </span><span class="n">a3</span><span class="p">,</span><span class="mi">0</span><span class="p">(</span><span class="n">a0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">ebreak</span>
+</pre></div>
+</div>
+<p>To run the code on BARVINN, we will first need to compile the above code. This source code is provided in BARVINN’s <a class="reference external" href="https://github.com/hossein1387/Accelerator/tree/master/csrc">csrc directory</a>. You can compile the code using the following instructions:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>matmul
+make<span class="w"> </span>matmul.hex
+</pre></div>
+</div>
+<p>This will generate a hex file that should be loaded into BARVINN. Now to run th program on BARVINN, you should follow these steps:</p>
+<p>First make sure Vivado is in the PATH:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>/opt/Xilinx/Vivado/2019.1/settings64.sh
+</pre></div>
+</div>
+<p>Then, assuming FuseSoC is already instlled, if not done already, we need to let FuseSoC know where to find PITO and MVU repos:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>BARVINN/MVU
+fusesoc<span class="w"> </span>library<span class="w"> </span>add<span class="w"> </span>mvu<span class="w"> </span>.
+<span class="nb">cd</span><span class="w"> </span>..
+<span class="nb">cd</span><span class="w"> </span>BARVINN/pito_riscv
+fusesoc<span class="w"> </span>library<span class="w"> </span>add<span class="w"> </span>pito<span class="w"> </span>.
+<span class="nb">cd</span><span class="w"> </span>..
+fusesoc<span class="w"> </span>library<span class="w"> </span>add<span class="w"> </span>barvinn<span class="w"> </span>.
+</pre></div>
+</div>
+<p>The commands above need to be executed once so that FuseSoC registers the BARVINN, PITO and MVU project correctly. Now that FuseSoC is configured properly, we can run a FuseSoC target for BARVINN (assuming <cite>matmul.hex</cite> is in the current directory):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>..
+fusesoc<span class="w"> </span>library<span class="w"> </span>add<span class="w"> </span>barvinn<span class="w"> </span>.
+fusesoc<span class="w"> </span>run<span class="w"> </span>--target<span class="o">=</span>sim<span class="w"> </span>barvinn<span class="w"> </span>--firmware<span class="o">=</span>matmul.hex
+</pre></div>
+</div>
+<p>By default, we have set <cite>verification/tests/core/core_tester.sv</cite> to run. However, one can change this by modifying <a class="reference external" href="https://github.com/hossein1387/Accelerator/blob/fusesoc/barvinn.core">barvinn core file</a> . Also, you by default, there are initial simulation values in MVU’s weight and input rams. You can modify that by using different input and weight files.</p>
+</section>
+<section id="convolution">
+<h2>Convolution<a class="headerlink" href="#convolution" title="Link to this heading"></a></h2>
+<p>In this example code, we want to program <cite>MVU[0]</cite> to perform a Convolution operation. We will first start with an ONNX model.
+<a class="reference internal" href="#resnet18-second-layer"><span class="std std-numref">Fig. 20</span></a> shows that the second layer of <cite>resnet18</cite> on cifar100 performs a convolution with input size of <cite>[1x64x32x32]</cite> with a weight tensor of size <cite>[64x64x3x3]</cite>. The convolution parameters are illustrated by Netron in <a class="reference internal" href="#resnet18-second-layer"><span class="std std-numref">Fig. 20</span></a>.</p>
+<figure class="align-default" id="resnet18-second-layer">
+<a class="reference internal image-reference" href="_images/resnet18_second_layer.png"><img alt="Alternative text" src="_images/resnet18_second_layer.png" style="width: 800px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 20 </span><span class="caption-text">Model used for Convolution example. This image shows that we are using the second conv layer of resnet18 on Cifar100. ONNX model is illustrated using Netron.</span><a class="headerlink" href="#resnet18-second-layer" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>The model in ONNX format is not suitable for MVU. As we discussed in previous sections, we have written a code generator software to take an ONNX model and then provide the user with the proper MVU configuration settings. For this example, assuming we have saved this simple one layer convolution block as <cite>SimpleConv.onnx</cite>, we can use the code generator as below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span> <span class="mi">1</span> <span class="kn">import</span> <span class="nn">logging</span>
+ <span class="mi">2</span> <span class="kn">import</span> <span class="nn">argparse</span>
+ <span class="mi">3</span> <span class="kn">from</span> <span class="nn">OnnxParser</span> <span class="kn">import</span> <span class="n">OnnxParser</span>
+ <span class="mi">4</span> <span class="kn">from</span> <span class="nn">Generator</span> <span class="kn">import</span> <span class="n">Generator</span>
+ <span class="mi">5</span> <span class="kn">import</span> <span class="nn">utils</span>
+ <span class="mi">6</span>
+ <span class="mi">7</span> <span class="k">def</span> <span class="nf">parse_args</span><span class="p">():</span>
+ <span class="mi">8</span>     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+ <span class="mi">9</span>     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-x&#39;</span><span class="p">,</span> <span class="s1">&#39;--onnx_model&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;input onnx model&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="mi">10</span>     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--aprec&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Activation precision&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="mi">11</span>     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--wprec&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Weight precision&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="mi">12</span>     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--oprec&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Output precision&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="mi">13</span>     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--input_shape&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;input shape for &#39;</span><span class="p">,</span>  <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">32</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="mi">14</span>     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+<span class="mi">15</span>     <span class="k">return</span> <span class="nb">vars</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="mi">16</span>
+<span class="mi">17</span> <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="mi">18</span>     <span class="n">args</span> <span class="o">=</span> <span class="n">parse_args</span><span class="p">()</span>
+<span class="mi">19</span>     <span class="n">model_path</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;onnx_model&#39;</span><span class="p">]</span>
+<span class="mi">20</span>     <span class="n">precision</span> <span class="o">=</span> <span class="p">[</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;aprec&#39;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;wprec&#39;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;oprec&#39;</span><span class="p">]]</span>
+<span class="mi">21</span>     <span class="n">input_shape</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;input_shape&#39;</span><span class="p">]</span>
+<span class="mi">22</span>     <span class="n">model</span> <span class="o">=</span> <span class="n">OnnxParser</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
+<span class="mi">23</span>
+<span class="mi">24</span>     <span class="c1"># model.print_onnx_graph()</span>
+<span class="mi">25</span>     <span class="c1"># model.print_onnx_model()</span>
+<span class="mi">26</span>     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;input_shape&#39;</span><span class="p">])</span><span class="o">&gt;</span><span class="mi">3</span><span class="p">:</span>
+<span class="mi">27</span>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Expecting an input array of shape: [channels, height, lenghth]&quot;</span><span class="p">)</span>
+<span class="mi">28</span>         <span class="kn">import</span> <span class="nn">sys</span>
+<span class="mi">29</span>         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+<span class="mi">30</span>     <span class="n">generator</span> <span class="o">=</span> <span class="n">Generator</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">)</span>
+<span class="mi">31</span>     <span class="n">generator</span><span class="o">.</span><span class="n">generate_mvu_configs</span><span class="p">()</span>
+<span class="mi">32</span>     <span class="n">generator</span><span class="o">.</span><span class="n">export_weigths</span><span class="p">()</span>
+<span class="mi">33</span>     <span class="n">utils</span><span class="o">.</span><span class="n">gen_test_vecs</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And then execute the script above as below:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>sample_mvu_code_generator.py<span class="w"> </span>-x<span class="w"> </span>SimpleConv.onnx<span class="w">  </span>--aprec<span class="w"> </span><span class="m">8</span><span class="w"> </span>--wprec<span class="w"> </span><span class="m">8</span><span class="w"> </span>--oprec<span class="w"> </span><span class="m">8</span><span class="w"> </span>--input_shape<span class="w"> </span><span class="m">64</span><span class="w"> </span><span class="m">32</span><span class="w"> </span><span class="m">32</span>
+</pre></div>
+</div>
+<p>In the command above, we are specifying a 2 bit precision for weights, activation and output result. We are also specifying the input shape of the model. Here is the output for the command above:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Generated<span class="w"> </span>MVU<span class="w"> </span>configuration:
++-------------+-----------+------------------+-------------------------+------------------+---------------------+-----------+-----------------------+
+<span class="p">|</span><span class="w"> </span>iShape<span class="w">      </span><span class="p">|</span><span class="w"> </span>fShape<span class="w">    </span><span class="p">|</span><span class="w"> </span>ilength<span class="w">          </span><span class="p">|</span><span class="w"> </span>ijump<span class="w">                   </span><span class="p">|</span><span class="w"> </span>wlength<span class="w">          </span><span class="p">|</span><span class="w"> </span>wjump<span class="w">               </span><span class="p">|</span><span class="w"> </span>countdown<span class="w"> </span><span class="p">|</span><span class="w"> </span>total<span class="w"> </span>layer<span class="w"> </span>countdown<span class="w"> </span><span class="p">|</span>
++-------------+-----------+------------------+-------------------------+------------------+---------------------+-----------+-----------------------+
+<span class="p">|</span><span class="w"> </span><span class="o">[</span><span class="m">1</span>,<span class="w"> </span><span class="m">32</span>,<span class="w"> </span><span class="m">32</span><span class="o">]</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="o">[</span><span class="m">1</span>,<span class="w"> </span><span class="m">3</span>,<span class="w"> </span><span class="m">3</span><span class="o">]</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="o">[</span><span class="m">0</span>,<span class="w"> </span><span class="m">63</span>,<span class="w"> </span><span class="m">2</span>,<span class="w"> </span><span class="m">2</span>,<span class="w"> </span><span class="m">0</span><span class="o">]</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="o">[</span>-528,<span class="w"> </span>-528,<span class="w"> </span><span class="m">240</span>,<span class="w"> </span><span class="m">8</span>,<span class="w"> </span><span class="m">0</span><span class="o">]</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="o">[</span><span class="m">0</span>,<span class="w"> </span><span class="m">0</span>,<span class="w"> </span><span class="m">63</span>,<span class="w"> </span><span class="m">8</span>,<span class="w"> </span><span class="m">0</span><span class="o">]</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="o">[</span>-64,<span class="w"> </span><span class="m">8</span>,<span class="w"> </span>-64,<span class="w"> </span><span class="m">8</span>,<span class="w"> </span><span class="m">0</span><span class="o">]</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">17280</span><span class="w">     </span><span class="p">|</span><span class="w"> </span><span class="m">587520</span><span class="w">                </span><span class="p">|</span>
++-------------+-----------+------------------+-------------------------+------------------+---------------------+-----------+-----------------------+
+Total<span class="w"> </span>countdown:<span class="w"> </span><span class="m">587520</span>
+Exporting<span class="w"> </span>conv1.weight<span class="w"> </span>to<span class="w"> </span>conv1.weight.hex
+Inference<span class="w"> </span>finised<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">0</span>.0030<span class="w"> </span>seconds
+Exporting<span class="w"> </span>output<span class="w"> </span>to<span class="w"> </span>output.hex
+Exporting<span class="w"> </span>input<span class="w"> </span>to<span class="w"> </span>input.hex
+</pre></div>
+</div>
+<p>Here is what we generated after executing the command above:</p>
+<ul class="simple">
+<li><p>A Generated MVU configuration table.</p></li>
+<li><p>A weight hex file in MSB transposed format <cite>conv1.weight.hex</cite></p></li>
+<li><p>An input hex file <cite>input.hex</cite></p></li>
+<li><p>An output hex file <cite>output.hex</cite></p></li>
+</ul>
+<p>The generated MVU configurations can be used to write a program to configure MVU csrs. The weight hex file can be directly used in simulation using <cite>$readmemh</cite> to write into MVU weight rams. For verification and testing the correctness of our design, we run the model through <cite>OnnxRuntime</cite> engine to capture the execution time and output results. However, since <cite>OnnxRuntime</cite> supports only 8-bit operation, the MVU results might not be the same as <cite>OnnxRuntime</cite> so for now we use 8 bit precision on MVU.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;pito_def.h&quot;</span>
+
+<span class="n">jal</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="n">enable_mvu_irq</span>
+<span class="n">jal</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="n">__startup_code__</span>
+<span class="n">jal</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="n">mat_mul</span>
+<span class="n">jal</span><span class="w"> </span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="n">wait_for_mvu_irq</span>
+<span class="n">jal</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="n">prog_end</span>
+
+
+<span class="c1">// in startup code, we need to set the following:</span>
+<span class="c1">//   -&gt; mtvec addresses</span>
+<span class="c1">//</span>
+<span class="nl">__startup_code__</span><span class="p">:</span>
+<span class="w">    </span><span class="c1">// addi x1, x0, pito_mtvec_mask</span>
+<span class="w">    </span><span class="c1">// creating mtvec mask</span>
+<span class="w">    </span><span class="n">lui</span><span class="w">  </span><span class="n">a0</span><span class="p">,</span><span class="w"> </span><span class="o">%</span><span class="n">hi</span><span class="p">(</span><span class="n">mvu_irq_handler</span><span class="p">)</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">a0</span><span class="p">,</span><span class="w"> </span><span class="n">a0</span><span class="p">,</span><span class="w"> </span><span class="o">%</span><span class="n">lo</span><span class="p">(</span><span class="n">mvu_irq_handler</span><span class="w"> </span><span class="p">)</span>
+<span class="w">    </span><span class="n">csrw</span><span class="w"> </span><span class="n">mtvec</span><span class="p">,</span><span class="w"> </span><span class="n">a0</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">ra</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">ret</span>
+
+<span class="nl">wait_for_mvu_irq</span><span class="p">:</span>
+<span class="w">    </span><span class="n">csrr</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="n">mcause</span>
+<span class="w">    </span><span class="n">srli</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="mi">31</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="c1">// wait for mcause[31] interrupt to go high</span>
+<span class="w">    </span><span class="n">bne</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="n">wait_for_mvu_irq</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">ra</span><span class="p">,</span><span class="w"> </span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">ret</span>
+
+<span class="nl">mvu_irq_handler</span><span class="p">:</span>
+<span class="w">    </span><span class="c1">// make sure global interrupt is disabled</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mstatus</span><span class="p">,</span><span class="w"> </span><span class="mh">0x0</span>
+<span class="w">    </span><span class="c1">// first things first, clear mvu intterupts pending bit while processing current irq.</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">slli</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span>
+<span class="w">    </span><span class="n">csrc</span><span class="w"> </span><span class="n">mip</span><span class="p">,</span><span class="w"> </span><span class="n">x1</span>
+<span class="w">    </span><span class="c1">// do whatever to make MVU happy</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">x0</span><span class="p">,</span><span class="w"> </span><span class="n">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="c1">// we can now start processing incoming interrupts</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">gp</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">jal</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="n">enable_mvu_irq</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">ra</span><span class="p">,</span><span class="w"> </span><span class="n">gp</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">mret</span>
+
+<span class="nl">enable_mvu_irq</span><span class="p">:</span>
+<span class="w">    </span><span class="c1">// make sure global interrupt is enabled</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mstatus</span><span class="p">,</span><span class="w"> </span><span class="mh">0x8</span>
+<span class="w">    </span><span class="c1">// set MVU specific MIE bit aka mie[16]</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="n">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">slli</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span>
+<span class="w">    </span><span class="n">csrw</span><span class="w"> </span><span class="n">mie</span><span class="p">,</span><span class="w"> </span><span class="n">t0</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">ra</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">ret</span>
+
+<span class="nl">disable_mvu_irq</span><span class="p">:</span>
+<span class="w">    </span><span class="c1">// clear MVU specific MIE bit</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="n">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">slli</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span>
+<span class="w">    </span><span class="n">not</span><span class="w"> </span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="n">t0</span>
+<span class="w">    </span><span class="n">csrw</span><span class="w"> </span><span class="n">mie</span><span class="p">,</span><span class="w"> </span><span class="n">t0</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">ra</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">ret</span>
+
+<span class="nl">clear_mvu_pending_irq</span><span class="p">:</span>
+<span class="w">    </span><span class="n">csrrci</span><span class="w"> </span><span class="n">x0</span><span class="p">,</span><span class="w"> </span><span class="n">mip</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">ret</span>
+
+<span class="nl">mat_mul</span><span class="p">:</span>
+<span class="w">    </span><span class="n">addi</span><span class="w">  </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">addi</span><span class="w">  </span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="n">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="n">add</span><span class="w">   </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x2</span><span class="w">               </span><span class="c1">// set weight precision to 2</span>
+<span class="w">    </span><span class="n">slli</span><span class="w">  </span><span class="n">x3</span><span class="p">,</span><span class="w"> </span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="w">                </span><span class="c1">// set input precision to 2</span>
+<span class="w">    </span><span class="n">add</span><span class="w">   </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x3</span>
+<span class="w">    </span><span class="n">slli</span><span class="w">  </span><span class="n">x3</span><span class="p">,</span><span class="w"> </span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="w">                </span><span class="c1">// set output precision to 2</span>
+<span class="w">    </span><span class="n">add</span><span class="w">   </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x3</span>
+<span class="w">    </span><span class="n">csrw</span><span class="w">  </span><span class="n">mvu_precision</span><span class="p">,</span><span class="w">  </span><span class="n">x1</span>
+
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuquant</span><span class="w">     </span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="w">       </span><span class="c1">// set quant_msbidx to 10</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuwbaseptr</span><span class="w">  </span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w">        </span><span class="c1">// set weight address to 0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuibaseptr</span><span class="w">  </span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w">        </span><span class="c1">// set input address to 0</span>
+
+<span class="w">    </span><span class="n">addi</span><span class="w">  </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">slli</span><span class="w">  </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="w">               </span><span class="c1">// set output address to 0x400</span>
+<span class="w">    </span><span class="n">csrw</span><span class="w"> </span><span class="n">mvuobaseptr</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">x1</span>
+
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuwjump_0</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="w">           </span><span class="c1">// 1 tile back move x 2 bits</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuwjump_1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="w">            </span><span class="c1">// 1 tile ahead move x 2 bits</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuwjump_2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuwjump_3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuwjump_4</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuijump_0</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="w">           </span><span class="c1">// 1 tile back move x 2 bits</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuijump_1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuijump_2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuijump_3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuijump_4</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvusjump_0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvusjump_1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvubjump_0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvubjump_1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuojump_0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuojump_1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuojump_2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuojump_3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuojump_4</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuwlength_0</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">1</span><span class="w">       </span><span class="c1">// 2 tiles in width</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuwlength_1</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">3</span><span class="w">       </span><span class="c1">// number bit combinations i.e. 2x2 bits</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuwlength_2</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">1</span><span class="w">       </span><span class="c1">// 2 tiles in height</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuwlength_3</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuilength_0</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">1</span><span class="w">       </span><span class="c1">// 2 tiles in height</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuilength_1</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="w">       </span><span class="c1">// number bit combinations</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuilength_2</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="w">       </span><span class="c1">// 2 tiles in width of matrix operand</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuilength_3</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuolength_0</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuolength_1</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuolength_2</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">csrwi</span><span class="w"> </span><span class="n">mvuolength_3</span><span class="w"> </span><span class="p">,</span><span class="w">  </span><span class="mi">0</span>
+
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">slli</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="w">                </span><span class="c1">// mul mode 01</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span>
+<span class="w">    </span><span class="n">csrw</span><span class="w"> </span><span class="n">mvucommand</span><span class="p">,</span><span class="w"> </span><span class="n">x1</span><span class="w">           </span><span class="c1">// Kick start MVU, 2 tiles x 2 tiles x 2bit x 2bits</span>
+
+<span class="w">    </span><span class="n">ret</span>
+
+<span class="c1">// Done with our awesome program!</span>
+<span class="nl">prog_end</span><span class="p">:</span>
+<span class="w">    </span><span class="n">lui</span><span class="w"> </span><span class="n">a0</span><span class="p">,</span><span class="mh">0x10000000</span><span class="o">&gt;&gt;</span><span class="mi">12</span>
+<span class="w">    </span><span class="n">addi</span><span class="w">  </span><span class="n">a1</span><span class="p">,</span><span class="n">zero</span><span class="p">,</span><span class="sc">&#39;O&#39;</span>
+<span class="w">    </span><span class="n">addi</span><span class="w">  </span><span class="n">a2</span><span class="p">,</span><span class="n">zero</span><span class="p">,</span><span class="sc">&#39;K&#39;</span>
+<span class="w">    </span><span class="n">addi</span><span class="w">  </span><span class="n">a3</span><span class="p">,</span><span class="n">zero</span><span class="p">,</span><span class="sc">&#39;\n&#39;</span>
+<span class="w">    </span><span class="n">sw</span><span class="w">  </span><span class="n">a1</span><span class="p">,</span><span class="mi">0</span><span class="p">(</span><span class="n">a0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">sw</span><span class="w">  </span><span class="n">a2</span><span class="p">,</span><span class="mi">0</span><span class="p">(</span><span class="n">a0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">sw</span><span class="w">  </span><span class="n">a3</span><span class="p">,</span><span class="mi">0</span><span class="p">(</span><span class="n">a0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">ebreak</span>
+</pre></div>
+</div>
+</section>
+<section id="classification">
+<h2>Classification<a class="headerlink" href="#classification" title="Link to this heading"></a></h2>
+</section>
+<section id="segmentation">
+<h2>Segmentation<a class="headerlink" href="#segmentation" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="fpga_prototyping.html" class="btn btn-neutral float-left" title="FPGA Prototyping" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="credits.html" class="btn btn-neutral float-right" title="Credits and Publications" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

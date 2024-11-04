@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design &mdash; BARVINN  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Verification" href="verification.html" />
+    <link rel="prev" title="Introduction" href="intro.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #DDDDDD" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            BARVINN
+              <img src="_static/BARVINN_LOGO.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Design</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#barvinn">BARVINN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#matrix-vector-unit-mvu-array">Matrix Vector Unit (MVU) Array</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mvu-job-configuration">MVU Job Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#feature-map-memory-access">Feature map memory access</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#weight-memory-access">Weight Memory Access</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jump-schedules">Jump Schedules</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pito-a-barrel-risc-v-processor">PITO: A Barrel RISC-V Processor</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#interrupts">Interrupts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#control-status-registers-risc-v">Control Status Registers (RISC-V)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#control-status-registers-mvu">Control Status Registers (MVU)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mvuwbaseptr">mvuwbaseptr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mvuibaseptr">mvuibaseptr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mvusbaseptr">mvusbaseptr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mvubbaseptr">mvubbaseptr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mvuobaseptr">mvuobaseptr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mvuwjump">mvuwjump</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mvuijump">mvuijump</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mvusjump">mvusjump</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mvubjump">mvubjump</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mvuojump">mvuojump</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mvuwlength">mvuwlength</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mvuilength">mvuilength</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mvuslength">mvuslength</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mvublength">mvublength</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mvuolength">mvuolength</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mvuprecision">mvuprecision</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mvustatus">mvustatus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mvucommand">mvucommand</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mvuquant">mvuquant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mvuscaler">mvuscaler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mvuconfig1">mvuconfig1</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="verification.html">Verification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="software.html">Software Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fpga_prototyping.html">FPGA Prototyping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits and Publications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acknowledgement.html">Acknowledgement</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #DDDDDD" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BARVINN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Design</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/design.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="design">
+<h1>Design<a class="headerlink" href="#design" title="Link to this heading"></a></h1>
+<section id="barvinn">
+<h2>BARVINN<a class="headerlink" href="#barvinn" title="Link to this heading"></a></h2>
+<p>BARVINN is a Barrel RISC-V Neural Network Accelerator. The main purpose of designing BARVINN is to fill the need for arbitrary precision neural network acceleration. The overall architecture of BARVINN is illustrated below.
+BARVINN is implemented in an FPGA. <a class="reference internal" href="#fig-barvinn-top"><span class="std std-numref">Fig. 1</span></a> illustrates the overall system design for BARVINN. It is consist of the following components:</p>
+<ul class="simple">
+<li><p>Array of Matrix Vector Units</p></li>
+<li><p>RISC-V Controller Core</p></li>
+<li><p>Host Machine</p></li>
+</ul>
+<figure class="align-default" id="fig-barvinn-top">
+<a class="reference internal image-reference" href="_images/BARVINN_TOP.png"><img alt="Alternative text" src="_images/BARVINN_TOP.png" style="width: 800px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">BARVINN overall architecture.</span><a class="headerlink" href="#fig-barvinn-top" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>In the following sections, we will review each part in details.</p>
+</section>
+<section id="matrix-vector-unit-mvu-array">
+<h2>Matrix Vector Unit (MVU) Array<a class="headerlink" href="#matrix-vector-unit-mvu-array" title="Link to this heading"></a></h2>
+<p>In the base configuration, BARVINN uses 8 MVUs. At every clock cycle, each MVU is capable of performing a binary matrix-vector product of the following size:</p>
+<ul class="simple">
+<li><p>Input Vector of 1 x 64 with 1 bit precision</p></li>
+<li><p>Weight Matrix of 64 x 64 with 1 bit precision</p></li>
+</ul>
+<p>Each MVU has a local memory to store activation and weights. The MVUs are connected through a crossbar. The crossbar allows MVUs to send part of their local memory (activations) among themselves. This allows MVUs to work on different jobs with different configurations or to work together to compute a single task.</p>
+<figure class="align-default" id="mvu-arch">
+<a class="reference internal image-reference" href="_images/MVU_ARCH.png"><img alt="Alternative text" src="_images/MVU_ARCH.png" style="width: 800px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">This figure illustrates an MVU block diagram.</span><a class="headerlink" href="#mvu-arch" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="#mvu-arch"><span class="std std-numref">Fig. 2</span></a> illustrates the block diagram of an MVU. Each MVU is consist of a Matrix Vector Product unit (MVP), Collision Detection Read Unit (CDRU), Collision Detection Write Unit (CDWU), activation RAM, weight RAM and a set of machine learning specific blocks such as quantizers, scaler units and pooling unit that can be switched on or off (technically, data will pass through all of these blocks and the user should provide proper configuration to bypass the functionality. For instance for <cite>scaler</cite> unit, if there is no need to scale the output, the user should write <cite>1s</cite> in scaler RAMs) depending on the job configuration. As it can be seen in <a class="reference internal" href="#mvu-arch"><span class="std std-numref">Fig. 2</span></a>, at each clock cycle, an MVU word (64 bits) is read from the activation RAM. At the same time, a long word of 4096 bits (64 by 64 ) is read from weight RAM. This is then fed into MVP unit which can perform one binary matrix-vector product each clock cycle. Depending on the precision configuration register (take a look at <a class="reference internal" href="#mvu-csr-reg-table">MVU_CSR_REG_TABLE</a> for detailed register configuration for each MVU), multiple words will be read from weight and data memory to perform bit-serial multiplication.</p>
+<p><a class="reference internal" href="#mvu-bit-slice"><span class="std std-numref">Fig. 3</span></a> illustrates bit-serial operation in MVU. As it can be seen, an MVU data word of size 64 bit is read from data RAM. This will be fed into 64 bit-serial multiplication blocks. Each of these blocks performs a dot product between the two vectors. <a class="reference internal" href="#mvu-bit-slice"><span class="std std-numref">Fig. 3</span></a> shows only one bit-slice operation in the MVU, however, in reality, there are 64 modules that perform the same task on input data but with different weight vectors. For more information on MVU bit-serial operation, please refer to “Bit-Slicing FPGA Accelerator for Quantized Neural Networks” by O. Bilaniu et al.</p>
+<figure class="align-default" id="mvu-bit-slice">
+<a class="reference internal image-reference" href="_images/mvu_bitslice_ops.png"><img alt="Alternative text" src="_images/mvu_bitslice_ops.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 3 </span><span class="caption-text">Bit serial operation in MVU.</span><a class="headerlink" href="#mvu-bit-slice" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>As we mentioned before, the MVU is capable of performing computation with different bit precision. The way we achieve this task is by storing values in MSB transposed format in memory. This format of saving data in memory allows MVU to read-only as many words as the operand precision specifies. Since all the computations are happening in this format, the user should not worry about memory layout except when it wants to read results or write inputs (such as input image) into MVU RAMs. To solve this issue, there is a data transposer module that transposes the data to the correct format. Data transposer’s job is to write input data (that is stored in a processor RAM in linear format) into MVU RAM in a transposed format. The input word can be packed with 2, 4, 8 or 16 bits of data. Given the input data precision (prec) the transposer will unpack, transpose and store them in the correct format. Once the MVU word is prepared, data tranposer will go into <cite>BUSY</cite> state in which it will ignore any incoming new input  data. At this point, the transposed data will be written into MVU word. Once complete, it will go back into <cite>IDLE</cite> state and it will wait for a new posedge on start signal to start the process all over again.</p>
+<figure class="align-default" id="data-transposer">
+<a class="reference internal image-reference" href="_images/Data_transposer.png"><img alt="Alternative text" src="_images/Data_transposer.png" style="width: 800px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Data transposer modlue, this module will pack vectors of size <cite>XLEN</cite> in MSB first transposed format.</span><a class="headerlink" href="#data-transposer" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<section id="mvu-job-configuration">
+<h3>MVU Job Configuration<a class="headerlink" href="#mvu-job-configuration" title="Link to this heading"></a></h3>
+<p>MVUs are programmed to perform a single job. A job is started by the controller by raising the <cite>start</cite> signal. Once the job is finished, the MVU will generate an interrupt, informing the controller that the requested job is finished and the results are ready to be sent back to the host or to other MVUs. Once MVU is busy with a job, the <cite>busy</cite> signal is raised. During this time, MVU can be programmed for the next job and raising the <cite>start</cite> signal will not initiate any new job.</p>
+<figure class="align-default" id="mvu-job-config">
+<a class="reference internal image-reference" href="_images/mvu_job_config.svg"><img alt="Alternative text" src="_images/mvu_job_config.svg" style="width: 800px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 5 </span><span class="caption-text">Timing diagram for configuring an MVU job.</span><a class="headerlink" href="#mvu-job-config" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="#mvu-job-config"><span class="std std-numref">Fig. 5</span></a> shows the timing diagram for sending a job to MVU. For sake of breavity, all config parameters are represented by <cite>configs</cite> signal. In the following sections, we will review what parameters can be set in the MVU.</p>
+</section>
+<section id="feature-map-memory-access">
+<h3>Feature map memory access<a class="headerlink" href="#feature-map-memory-access" title="Link to this heading"></a></h3>
+<p><a class="reference internal" href="#input-feature-map-mem-layouts"><span class="std std-numref">Fig. 6</span></a> illustrates the memory layout for feature maps. MVU expects a NHWC layout for feature map features. Each element should be stored in a MSB transposed format. <a class="reference internal" href="#input-feature-map-mem-layouts"><span class="std std-numref">Fig. 6</span></a> shows that each word is 64 bit. As a result, accessing memory at location <cite>0</cite> will return a 64-bit word, where each bit, belongs to the MSB bit of the first 64 channels of the feature map. Elements of these 64 channels are concatenated (in MSB transposed format) together to form a channel block. The next memory address i.e <cite>1</cite> will return the <cite>MSB-1</cite> bits of the first 64 channels. This pattern continues until we reach the configured input precision i.e. <cite>iprecision</cite>.</p>
+<figure class="align-default" id="input-feature-map-mem-layouts">
+<a class="reference internal image-reference" href="_images/input_feature_map_mem_layouts.png"><img alt="Alternative text" src="_images/input_feature_map_mem_layouts.png" style="width: 800px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 6 </span><span class="caption-text">Input feature map memory layout.</span><a class="headerlink" href="#input-feature-map-mem-layouts" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Elements of each channel are written into feature map memory with an offset of <cite>iprecision</cite>. In case there are more than 64 channels in the feature map, we will store the first 64 channels in the first block, the second 64 channels into the second block and so on. As an example, an input tensor of <cite>[N=1, H=8, W=8, C=256]</cite> with 2-bit precision, will have 4 channel blocks, each block will have 64 rows of 2 by 64-bit elements.</p>
+</section>
+<section id="weight-memory-access">
+<h3>Weight Memory Access<a class="headerlink" href="#weight-memory-access" title="Link to this heading"></a></h3>
+<p>Weight memory layout is very similar to feature map memory layout. <a class="reference internal" href="#weight-mem-layouts"><span class="std std-numref">Fig. 7</span></a> illustrates the weight memory layout. Same as <a class="reference internal" href="#input-feature-map-mem-layouts"><span class="std std-numref">Fig. 6</span></a>, MVU expects a NHWC layout for weight tensor. However, in weight memory, we have input and output channels. By default, weight memory words are 4096 bit long. Allowing to concatenate a single MSB bit of <cite>64x64</cite> channels per row of weight memory. In deep neural network models, weight tensors are usually consist of a set of filters. The weight memory layout in MVU allows concatenating 64 input channels into 64 set of filters i.e. output channels. Like feature map memory layout, in case we have more than 64 input channels, we will write them into the next input channel blocks. Instead of <cite>iprecision</cite>, here we use <cite>wprecision</cite> to specify how many bits are required to represent any weight element.</p>
+<figure class="align-default" id="weight-mem-layouts">
+<a class="reference internal image-reference" href="_images/weight_mem_layouts.png"><img alt="Alternative text" src="_images/weight_mem_layouts.png" style="width: 800px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 7 </span><span class="caption-text">Weight memory layout.</span><a class="headerlink" href="#weight-mem-layouts" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>Like feature map memory layout, channel blocks are grouped together to form width columns and then height rows. Finally, we can group multiple height rows together to form output channels i.e. filters.</p>
+</section>
+<section id="jump-schedules">
+<span id="id1"></span><h3>Jump Schedules<a class="headerlink" href="#jump-schedules" title="Link to this heading"></a></h3>
+<p>The memory layout described in previous sections allows MVU to efficiently compute matrix multiplication between input vectors and the weight matrices. However, a convolutional neural network, many matrix multiplies should be performed. One of the most common ways to perform convolution is to slide the weight tensor over input. <a class="reference internal" href="#slide-window-valid"><span class="std std-numref">Fig. 8</span></a> illustrates this operation.</p>
+<figure class="align-default" id="slide-window-valid">
+<a class="reference internal image-reference" href="_images/slide_window_valid.png"><img alt="Alternative text" src="_images/slide_window_valid.png" style="width: 800px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 8 </span><span class="caption-text">Sliding window operation to perform Convolution.</span><a class="headerlink" href="#slide-window-valid" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>As you can see in <a class="reference internal" href="#slide-window-valid"><span class="std std-numref">Fig. 8</span></a>, if we just slide the weight tensor over input, not all dot products are valid. Luckily, for a given stride, padding and weight shape, we can pre-compute the pattern of memory accesses by the MVU to compute an operation such as GEMV or convolution. Each MVU includes address generators that can be programmed to implement a series of nested loops that can be used to move across the input data and weight tensors. Address generators have a set of <cite>length</cite> parameters that set the bounds of each nested loop, and a set of associated address <cite>jump</cite> (<cite>jX</cite>) parameters that are used to compute the next memory address to move to in a given loop. This is illustrated in the following pseudocode:</p>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">length1</span><span class="p">;</span><span class="w"> </span><span class="n">i1</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i1</span><span class="o">--</span><span class="p">)</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">length2</span><span class="p">;</span><span class="w"> </span><span class="n">i2</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i2</span><span class="o">--</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">length3</span><span class="p">;</span><span class="w"> </span><span class="n">i3</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i3</span><span class="o">--</span><span class="p">)</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">length4</span><span class="p">;</span><span class="w"> </span><span class="n">i4</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i4</span><span class="o">--</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="n">addr_out</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">j4</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">addr_out</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">j3</span><span class="p">;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="n">addr_out</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">j2</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">addr_out</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">j1</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="n">addr_out</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">j0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>For a 2D convolution operation, <a class="reference internal" href="#feature-map-jump-schedule"><span class="std std-numref">Fig. 9</span></a> and <a class="reference internal" href="#weight-jump-schedule"><span class="std std-numref">Fig. 10</span></a> illustrates what each jump configuration is:</p>
+<figure class="align-default" id="feature-map-jump-schedule">
+<a class="reference internal image-reference" href="_images/feature_map_jump_schedule.png"><img alt="Alternative text" src="_images/feature_map_jump_schedule.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 9 </span><span class="caption-text">Input feature jump schedule.</span><a class="headerlink" href="#feature-map-jump-schedule" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>For inputs we have the following configurable <cite>jump</cite> variables:</p>
+<ul class="simple">
+<li><p><cite>j3</cite>: jump over precision length for input data (i.e. set to <cite>iprec</cite>).</p></li>
+<li><p><cite>j2</cite>: Specifies if we have reached window width, if so, move to the next row in the window.</p></li>
+<li><p><cite>j1</cite>: Specifies if we have reached window height and width, if so, move back to window start for next precision combo or next filter set (i.e. for same output (x,y), start computing next output channel block).</p></li>
+<li><p><cite>j0</cite>: Specifies if we have finished all filter sets in the window and done output (x,y). Slide window by horizontal stride. Start output (x+1, y). Note that the diagram shows a horizontal stride of 1.</p></li>
+<li><p><cite>j4</cite>: not applicable.</p></li>
+</ul>
+<figure class="align-default" id="weight-jump-schedule">
+<a class="reference internal image-reference" href="_images/weight_jump_schedule.png"><img alt="Alternative text" src="_images/weight_jump_schedule.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 10 </span><span class="caption-text">Weight jump schedule.</span><a class="headerlink" href="#weight-jump-schedule" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p><cite>j3</cite>: jump over precison length for weights (i.e. set to <cite>wprecision</cite>).</p></li>
+<li><p><cite>j2</cite>: Specifies if we have reached window width and height, if so, move back to filter start for next precision combo.</p></li>
+<li><p><cite>j1</cite>: Specifies if we have finished all bit combos for the current filter set and channel block for output (x,y) and if so, move to the next filter set and compute the next channel block for output (x,y).</p></li>
+<li><p><cite>j0</cite>: Specifies if we have finished all filter sets and channel blocks for output (x,y) and if so, move back to the start of the first filter set for the next window and output (x+1, y).</p></li>
+<li><p><cite>j4</cite>: not applicable.</p></li>
+</ul>
+<figure class="align-default" id="qn-bn-weights">
+<a class="reference internal image-reference" href="_images/qn_bn_weights.png"><img alt="Alternative text" src="_images/qn_bn_weights.png" style="width: 800px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 11 </span><span class="caption-text">Quantizer/BN weights</span><a class="headerlink" href="#qn-bn-weights" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p>16-bit fixed point values</p></li>
+<li><p>Standard bit ordering, i.e. non-bit-sliced, little-endian</p></li>
+<li><p>Each channel block is 64 channels</p></li>
+<li><p>n channel blocks in a layer; would be same as Fc in conv or bn following conv</p></li>
+</ul>
+<figure class="align-default" id="bn-bias-weights">
+<a class="reference internal image-reference" href="_images/bn_bias_weights.png"><img alt="Alternative text" src="_images/bn_bias_weights.png" style="width: 800px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 12 </span><span class="caption-text">BN/linear biases</span><a class="headerlink" href="#bn-bias-weights" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p>32-bit fixed point values</p></li>
+<li><p>Only lower 27-bits are used in addition (due to FPGA DSP structure)</p></li>
+<li><p>Standard bit ordering (i.e. non-bit-sliced), little-endian</p></li>
+<li><p>Each channel block is 64 channels</p></li>
+<li><p>n channel blocks in a layer; would be same as Fc in conv or bn following conv</p></li>
+</ul>
+<p>In general, each MVU has 44 configurable registers that can be used in the software. Section <a class="reference internal" href="#control-status-registers"><span class="std std-ref">Control Status Registers (MVU)</span></a> provides details of each register.</p>
+</section>
+</section>
+<section id="pito-a-barrel-risc-v-processor">
+<h2>PITO: A Barrel RISC-V Processor<a class="headerlink" href="#pito-a-barrel-risc-v-processor" title="Link to this heading"></a></h2>
+<p>To make use of MVUs for neural networks, some form of the control unit is required. It is not possible to foresee and provide for all possible neural networks that may crop up in the literature in the future. Therefore, the high-level sequencing of tensor operations should be provided for in software, possibly assisted by <cite>glue</cite> logic to help drive the MVUs’ control signals.</p>
+<p>PITO is a Barrel RISC-V processor, designed to control the 8 MVUs in <cite>Bilaniuk et al. (2019)</cite> using separate but communicating hardware threads (harts) that each manages their respective MVUs. Neural network layers can then be executed either in parallel or in a pipelined fashion depending on whether the neural network software is compiled to maximize throughput or minimize latency. This design also allows MVUs to complete tensor operations independently of each other. However, the drawback is that, at least nominally, this requires 8 microprocessors to execute the 8 programs, putting serious pressure on the remaining logic of the host FPGA. We instead amortized the fixed costs of the processor by adopting an old idea: <cite>the barrel processor</cite>. By making the barrel processor 8-way threaded, we may assign one thread to control each of the MVUs, while amortizing the fixed costs of each microprocessor over the 8 threads. Because every thread comes up for execution only every 8 clock cycles, up to 8 pipeline stages including instruction fetch, decode, execution and data read &amp; writes can be completely hidden. Branch prediction units are also made unnecessary. Because even modest tensor operations can require hundreds of matrix-vector products (and therefore clock cycles) to execute on an MVU, the barrel processor has the opportunity to fully turn over dozens of times in the interim, allowing each thread to issue the next command to its MVU in a few instructions.</p>
+<p>A barrel processor is a form of a fine-grain multithreading processor that exploits thread-level parallelism by switching between different threads on each clock cycle (Hennessey and Patterson,2011). The aim is to maximize the overall utilization of the processor’s resources, and instruction throughput. This is similar to the technique of simultaneous multi-threading (SMT) that is used in modern superscalar processors. However, unlike SMT superscalar processors, barrel processors do not issue more than one instruction per clock cycle. Instead, a single execution pipeline is shared by all threads. <a class="reference internal" href="#pito-barreled"><span class="std std-numref">Fig. 13</span></a> illustrates the data path of <cite>PITO</cite>, a 5 stage 8 hart, barrel processor compatible with RV32I RISC-V ISA.</p>
+<figure class="align-default" id="pito-barreled">
+<a class="reference internal image-reference" href="_images/pito_barreled.png"><img alt="Alternative text" src="_images/pito_barreled.png" style="width: 800px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 13 </span><span class="caption-text">PITO Datapath, a 5 stage 8 hart, barrel processor.</span><a class="headerlink" href="#pito-barreled" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>We adopted a Harvard architecture and divided the instruction and data cache. In our design, we used 32KB BRAM for each cache. This gives a 1K word space to store data and instructions to control each MVU. The processor is an in-order CPU and instructions are executed following compilation order and without any further scheduling. However, a hart scheduler is needed to give access to the required resources for the hart at each stage. In the fetch stage, each hart needs to fetch instructions from the instruction cache. As explained earlier, we used 32KB of instruction cache which is shared between all harts. However, the program counter (PC) for each hart is different. To keep track of this, we used 8 registers for PCs and the hart scheduler indicates which register should be accessed at any given time. In the Decode stage, the fetched instruction needs to be decoded, and source registers (rs1 and rs2) or an immediate (imm) operand needs to be loaded. Each hart has its own register file and in the Decode stage, the hart scheduler gives access to the scheduled hart’s register file.</p>
+<figure class="align-default" id="pito-code-run">
+<a class="reference internal image-reference" href="_images/pito_code_run.png"><img alt="Alternative text" src="_images/pito_code_run.png" style="width: 800px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 14 </span><span class="caption-text">This figure shows 8 harts running in the barrel processor that has 5-stage pipeline. The figure on the right shows every 8 clock cycles, the program counter of the associated hart increments, which allows this pipeline to be implemented without any data or control hazard circuitry.</span><a class="headerlink" href="#pito-code-run" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<p>The hart scheduler itself uses a strict round-robin algorithm. No preemption or priority is implemented and every hart is given a fixed amount of time slots for execution. Figure 4.3a shows how harts are scheduled for execution in our design. Considering the execution for Hart[0], it takes 5 clock cycles for an instruction to be completed. After the 5th clock tick, no more processing associated with Hart[0] is performed. The next three slots are given to Hart[5], Hart[6] and Hart[7]. Thus each hart executes an instruction every 8th cycle of the main clock. Hence the CPI of 8. From the perspective of the main CPU, the throughput is one instruction per clock cycle. From the perspective of each hart, we are running at an 8th of the main clock speed with a CPI of 1.</p>
+<p>PITO is compatible with RV32I RISC-V ISA. In fact, PITO passes all the RISC-V tests, confirming that it is compliant with the RV32I ISA. In addition to base CSRs (refer to <a class="reference internal" href="#rv32-csr-reg-table"><span class="std std-ref">Control Status Registers (RISC-V)</span></a> for details) and to specialize PITO for our accelerator, we have added 44 MVU specific CSRs. In Section <a class="reference internal" href="examples.html#examples"><span class="std std-ref">Examples</span></a>, we have provided example codes to program these CSRs to submit a job to MVU.</p>
+<section id="interrupts">
+<h3>Interrupts<a class="headerlink" href="#interrupts" title="Link to this heading"></a></h3>
+<p>In BARVINN, MVUs can send interrupts to their associated hart. These interrupts are added to RISC-V custom interrupts <cite>mie</cite> field. To reduce complexity, there are no supports for nested interrupts or interrupt priorities. However, we followed RISC-V’s interrupt operation flow. <a class="reference internal" href="#pito-irq"><span class="std std-numref">Fig. 15</span></a> illustrates servicing interrupt flow in software and hardware.</p>
+<figure class="align-default" id="pito-irq">
+<a class="reference internal image-reference" href="_images/pito_interrupt.png"><img alt="Alternative text" src="_images/pito_interrupt.png" style="width: 800px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 15 </span><span class="caption-text">Interrupt service routine in hardware and software</span><a class="headerlink" href="#pito-irq" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="control-status-registers-risc-v">
+<span id="rv32-csr-reg-table"></span><h3>Control Status Registers (RISC-V)<a class="headerlink" href="#control-status-registers-risc-v" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>ADRR</p></th>
+<th class="head"><p>CSR</p></th>
+<th class="head"><p>RO/RW</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0x301</p></td>
+<td><p>misa</p></td>
+<td><p>RO</p></td>
+<td><p>A constant, but MSB = 0 for open-source implementation..</p></td>
+</tr>
+<tr class="row-odd"><td><p>0xF11</p></td>
+<td><p>mvendorid</p></td>
+<td><p>RO/Zero</p></td>
+<td><p>Identification. Can be zero.</p></td>
+</tr>
+<tr class="row-even"><td><p>0xF12</p></td>
+<td><p>marchid</p></td>
+<td><p>RO/Zero</p></td>
+<td><p>Identification. Can be zero.</p></td>
+</tr>
+<tr class="row-odd"><td><p>0xF13</p></td>
+<td><p>mimpid</p></td>
+<td><p>RO/Zero</p></td>
+<td><p>Identification. Can be zero.</p></td>
+</tr>
+<tr class="row-even"><td><p>0xF14</p></td>
+<td><p>mhartid</p></td>
+<td><p>RO, cycle counter % 8</p></td>
+<td><p>Shared with cycle counter.</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x300</p></td>
+<td><p>mstatus</p></td>
+<td><p>RW,
+per-thread</p></td>
+<td><p>Critically-important bits like Global Interrupt Enables</p></td>
+</tr>
+<tr class="row-even"><td><p>0x305</p></td>
+<td><p>mtvec</p></td>
+<td><p>RO or RW if wanted</p></td>
+<td><p>Interrupt vector, or interrupt vector table base address.
+Register is RW if we want to be able to choose between these
+two modes, or change the address.</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x344</p></td>
+<td><p>mip</p></td>
+<td><p>RO,
+per-thread</p></td>
+<td><p>Pending interrupts bitfield</p></td>
+</tr>
+<tr class="row-even"><td><p>0x304</p></td>
+<td><p>mie</p></td>
+<td><p>RW,
+per-thread</p></td>
+<td><p>Enabled interrupts bitfield</p></td>
+</tr>
+<tr class="row-odd"><td><p>0xB00</p></td>
+<td><p>mcycle</p></td>
+<td><p>RW
+per-thread</p></td>
+<td><p>Cycles counter, low 32 bits</p></td>
+</tr>
+<tr class="row-even"><td><p>0xB80</p></td>
+<td><p>mcycleh</p></td>
+<td><p>RW
+per-thread</p></td>
+<td><p>Cycles counter, high 32 bits</p></td>
+</tr>
+<tr class="row-odd"><td><p>0xB02</p></td>
+<td><p>minstret</p></td>
+<td><p>RW
+per-thread</p></td>
+<td><p>Instructions retired counter, low 32 bits</p></td>
+</tr>
+<tr class="row-even"><td><p>0xB82</p></td>
+<td><p>minstreth</p></td>
+<td><p>RW
+per-thread</p></td>
+<td><p>Instructions retired counter, high 32 bits</p></td>
+</tr>
+<tr class="row-odd"><td><p>0xxxx</p></td>
+<td><p>mhpm*</p></td>
+<td><p>RO/Zero</p></td>
+<td><p>High-performance counter control registers, not supported</p></td>
+</tr>
+<tr class="row-even"><td><p>0xxxx</p></td>
+<td><p>mcountinhibit</p></td>
+<td><p>RO/Zero</p></td>
+<td><p>High-performance counter inhibit, not supported</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x340</p></td>
+<td><p>mscratch</p></td>
+<td><p>RW,
+per-thread</p></td>
+<td><p>Scratch register, necessary to support interrupts</p></td>
+</tr>
+<tr class="row-even"><td><p>0x341</p></td>
+<td><p>mepc</p></td>
+<td><p>RW,
+per-thread</p></td>
+<td><p>Exception program counter</p></td>
+</tr>
+<tr class="row-odd"><td><p>0x342</p></td>
+<td><p>mcause</p></td>
+<td><p>RW,
+per-thread</p></td>
+<td><p>Interrupt cause</p></td>
+</tr>
+<tr class="row-even"><td><p>0x343</p></td>
+<td><p>mtval</p></td>
+<td><p>RW,
+per-thread</p></td>
+<td><p>Stores either faulting address, or contains illegal instruction</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="control-status-registers-mvu">
+<span id="control-status-registers"></span><h3>Control Status Registers (MVU)<a class="headerlink" href="#control-status-registers-mvu" title="Link to this heading"></a></h3>
+<table class="docutils align-default" id="mvu-csr-reg-table">
+<thead>
+<tr class="row-odd"><th class="head"><p>CSR</p></th>
+<th class="head"><p>RO/RW</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>mvuwbaseptr</p></td>
+<td><p>RW</p></td>
+<td><p>Base address for weight memory</p></td>
+</tr>
+<tr class="row-odd"><td><p>mvuibaseptr</p></td>
+<td><p>RW</p></td>
+<td><p>Base address for input memory</p></td>
+</tr>
+<tr class="row-even"><td><p>mvusbaseptr</p></td>
+<td><p>RW</p></td>
+<td><p>Base address for scaler memory (6-bit)</p></td>
+</tr>
+<tr class="row-odd"><td><p>mvubbaseptr</p></td>
+<td><p>RW</p></td>
+<td><p>Base address for bias memory (6-bit)</p></td>
+</tr>
+<tr class="row-even"><td rowspan="3"><p>mvuobaseptr</p></td>
+<td rowspan="3"><p>RW</p></td>
+<td><p>Output base address:</p></td>
+</tr>
+<tr class="row-odd"><td><p>0-23: address</p></td>
+</tr>
+<tr class="row-even"><td><p>31-24: destination MVUs (bit 24 -&gt; MVU 0)</p></td>
+</tr>
+<tr class="row-odd"><td><p>mvuwjump[0-4]</p></td>
+<td><p>RW</p></td>
+<td><p>Weight address jumps in loops 0-4</p></td>
+</tr>
+<tr class="row-even"><td><p>mvuijump[0-4]</p></td>
+<td><p>RW</p></td>
+<td><p>Input data address jumps in loops 0-4</p></td>
+</tr>
+<tr class="row-odd"><td><p>mvusjump[0-1]</p></td>
+<td><p>RW</p></td>
+<td><p>Scaler memory address jumps (6-bit)</p></td>
+</tr>
+<tr class="row-even"><td><p>mvubjump[0-1]</p></td>
+<td><p>RW</p></td>
+<td><p>Bias memory address jumps (6-bit)</p></td>
+</tr>
+<tr class="row-odd"><td><p>mvuojump[0-4]</p></td>
+<td><p>RW</p></td>
+<td><p>Output data address jumps in loops 0-4</p></td>
+</tr>
+<tr class="row-even"><td><p>mvuwlength[1-4]</p></td>
+<td><p>RW</p></td>
+<td><p>Weight length in loops 1-4</p></td>
+</tr>
+<tr class="row-odd"><td><p>mvuilength[1-4]</p></td>
+<td><p>RW</p></td>
+<td><p>Input data length in loops 1-4</p></td>
+</tr>
+<tr class="row-even"><td><p>mvuslength[1]</p></td>
+<td><p>RW</p></td>
+<td><p>Scaler tensor lengths(15-bit)</p></td>
+</tr>
+<tr class="row-odd"><td><p>mvublength[1]</p></td>
+<td><p>RW</p></td>
+<td><p>Bias tensor lengths (15-bit)</p></td>
+</tr>
+<tr class="row-even"><td><p>mvuolength[1-4]</p></td>
+<td><p>RW</p></td>
+<td><p>Output data length in loops 1-4</p></td>
+</tr>
+<tr class="row-odd"><td rowspan="6"><p>mvuprecision</p></td>
+<td rowspan="6"><p>RW</p></td>
+<td><p>Precision in bits for all tensors:</p></td>
+</tr>
+<tr class="row-even"><td><p>0-5: weights precision</p></td>
+</tr>
+<tr class="row-odd"><td><p>6-11: input data precision</p></td>
+</tr>
+<tr class="row-even"><td><p>12-17: output data precision</p></td>
+</tr>
+<tr class="row-odd"><td><p>24: weights signed (0: unsigned, 1: signed)</p></td>
+</tr>
+<tr class="row-even"><td><p>25: input data signed (0: unsigned, 1: signed)</p></td>
+</tr>
+<tr class="row-odd"><td rowspan="3"><p>mvustatus</p></td>
+<td rowspan="3"><p>RO</p></td>
+<td><p>Status of MVU:</p></td>
+</tr>
+<tr class="row-even"><td><p>0: busy</p></td>
+</tr>
+<tr class="row-odd"><td><p>1: done</p></td>
+</tr>
+<tr class="row-even"><td rowspan="4"><p>mvucommand</p></td>
+<td rowspan="4"><p>RW</p></td>
+<td><p>Kick to send command:</p></td>
+</tr>
+<tr class="row-odd"><td><p>30-31: MulMode (00:{0,0} 01:{0,+1} 10:{-1,+1} 11:{0, -1})</p></td>
+</tr>
+<tr class="row-even"><td><p>29: MaxPool enable</p></td>
+</tr>
+<tr class="row-odd"><td><p>0-28: Clock cycle countdown</p></td>
+</tr>
+<tr class="row-even"><td rowspan="3"><p>mvuquant</p></td>
+<td rowspan="3"><p>RW</p></td>
+<td><p>MVU Quantization Configs:</p></td>
+</tr>
+<tr class="row-odd"><td><p>6-11: MSB index position</p></td>
+</tr>
+<tr class="row-even"><td><p>12-31: reserved (possibly for activation params)</p></td>
+</tr>
+<tr class="row-odd"><td><p>mvuscaler</p></td>
+<td><p>RW</p></td>
+<td><p>0-15: fixed point operand for multiplicative scaling</p></td>
+</tr>
+<tr class="row-even"><td rowspan="3"><p>mvuconfig1</p></td>
+<td rowspan="3"><p>RW</p></td>
+<td><p>MVU General Configurations</p></td>
+</tr>
+<tr class="row-odd"><td><p>0-7: Shift/accumulator load on jump select (only 0-4 valid)</p></td>
+</tr>
+<tr class="row-even"><td><p>8-16: Pool/Activation clear on jump select (only 0-4 valid)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mvuwbaseptr">
+<h3>mvuwbaseptr<a class="headerlink" href="#mvuwbaseptr" title="Link to this heading"></a></h3>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mvuwbaseptr.svg"><img alt="Alternative text" src="_images/mvuwbaseptr.svg" style="width: 800px;" /></a>
+</figure>
+</section>
+<section id="mvuibaseptr">
+<h3>mvuibaseptr<a class="headerlink" href="#mvuibaseptr" title="Link to this heading"></a></h3>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mvuibaseptr.svg"><img alt="Alternative text" src="_images/mvuibaseptr.svg" style="width: 800px;" /></a>
+</figure>
+</section>
+<section id="mvusbaseptr">
+<h3>mvusbaseptr<a class="headerlink" href="#mvusbaseptr" title="Link to this heading"></a></h3>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mvusbaseptr.svg"><img alt="Alternative text" src="_images/mvusbaseptr.svg" style="width: 800px;" /></a>
+</figure>
+</section>
+<section id="mvubbaseptr">
+<h3>mvubbaseptr<a class="headerlink" href="#mvubbaseptr" title="Link to this heading"></a></h3>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mvubbaseptr.svg"><img alt="Alternative text" src="_images/mvubbaseptr.svg" style="width: 800px;" /></a>
+</figure>
+</section>
+<section id="mvuobaseptr">
+<h3>mvuobaseptr<a class="headerlink" href="#mvuobaseptr" title="Link to this heading"></a></h3>
+<p><cite>mvuobaseptr</cite> output address, results of each operation will be written into this address.
+Destination MVU, results can be sent to other MVUs by setting the appropriate MVU (0 to7 ) field. The result can be broadcasted to any number of MVUs in the system.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mvuobaseptr.svg"><img alt="Alternative text" src="_images/mvuobaseptr.svg" style="width: 800px;" /></a>
+</figure>
+</section>
+<section id="mvuwjump">
+<h3>mvuwjump<a class="headerlink" href="#mvuwjump" title="Link to this heading"></a></h3>
+<p><cite>mvuwjump</cite> is the weight address jumps in loops 0-4. Hence, there are 5 registers all start with <cite>mvuwjump_</cite> but then to access a specific loop, you need to append the loop number at the end (refer to <a class="reference internal" href="#jump-schedules"><span class="std std-ref">Jump Schedules</span></a> section for details on loop count). For instance, for <cite>loop1</cite> one can use <cite>mvuwjump_1</cite>.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mvuwjump.svg"><img alt="Alternative text" src="_images/mvuwjump.svg" style="width: 800px;" /></a>
+</figure>
+</section>
+<section id="mvuijump">
+<h3>mvuijump<a class="headerlink" href="#mvuijump" title="Link to this heading"></a></h3>
+<p>Same as <cite>mvuwjump</cite>, there are 5 loops that can be used to address input data. These loops can be accessed as <cite>mvuijump_0</cite> to <cite>mvuijump_4</cite>.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mvuijump.svg"><img alt="Alternative text" src="_images/mvuijump.svg" style="width: 800px;" /></a>
+</figure>
+</section>
+<section id="mvusjump">
+<h3>mvusjump<a class="headerlink" href="#mvusjump" title="Link to this heading"></a></h3>
+<p>For scaler memory, we have only two jumps and they can be accessed as <cite>mvusjump_0</cite> and <cite>mvusjump_1</cite>.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mvusjump.svg"><img alt="Alternative text" src="_images/mvusjump.svg" style="width: 800px;" /></a>
+</figure>
+</section>
+<section id="mvubjump">
+<h3>mvubjump<a class="headerlink" href="#mvubjump" title="Link to this heading"></a></h3>
+<p>For bias memory, we have only two jumps and they can be accessed as <cite>mvubjump_0</cite> and <cite>mvubjump_1</cite>.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mvubjump.svg"><img alt="Alternative text" src="_images/mvubjump.svg" style="width: 800px;" /></a>
+</figure>
+</section>
+<section id="mvuojump">
+<h3>mvuojump<a class="headerlink" href="#mvuojump" title="Link to this heading"></a></h3>
+<p>Same as <cite>mvuwjump</cite>, there are 5 loops that can be used to address output memory. These loops can be accessed as <cite>mvuojump_0</cite> to <cite>mvuojump_4</cite>.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mvuojump.svg"><img alt="Alternative text" src="_images/mvuojump.svg" style="width: 800px;" /></a>
+</figure>
+</section>
+<section id="mvuwlength">
+<h3>mvuwlength<a class="headerlink" href="#mvuwlength" title="Link to this heading"></a></h3>
+<p>There are 4 registers to specify weight length loops and can be accessed as <cite>mvuwlength_1</cite> to <cite>mvuwlength_4</cite>. Note, <cite>mvuwlength_0</cite> is intentionally not used.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mvuwlength.svg"><img alt="Alternative text" src="_images/mvuwlength.svg" style="width: 800px;" /></a>
+</figure>
+</section>
+<section id="mvuilength">
+<h3>mvuilength<a class="headerlink" href="#mvuilength" title="Link to this heading"></a></h3>
+<p>There are 4 registers to specify input data length loops and can be accessed as <cite>mvuilength_1</cite> to <cite>mvuilength_4</cite>.  Note, <cite>mvuilength_0</cite> is intentionally not used.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mvuilength.svg"><img alt="Alternative text" src="_images/mvuilength.svg" style="width: 800px;" /></a>
+</figure>
+</section>
+<section id="mvuslength">
+<h3>mvuslength<a class="headerlink" href="#mvuslength" title="Link to this heading"></a></h3>
+<p>There is only one register to specify scaler tensor length and it can be accessed as <cite>mvuslength_1</cite>.  Note, <cite>mvuslength_0</cite> is intentionally not used.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mvuslength.svg"><img alt="Alternative text" src="_images/mvuslength.svg" style="width: 800px;" /></a>
+</figure>
+</section>
+<section id="mvublength">
+<h3>mvublength<a class="headerlink" href="#mvublength" title="Link to this heading"></a></h3>
+<p>There is only one register to specify scaler tensor length and it can be accessed as <cite>mvublength_1</cite>.  Note, <cite>mvublength_0</cite> is intentionally not used.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mvublength.svg"><img alt="Alternative text" src="_images/mvublength.svg" style="width: 800px;" /></a>
+</figure>
+</section>
+<section id="mvuolength">
+<h3>mvuolength<a class="headerlink" href="#mvuolength" title="Link to this heading"></a></h3>
+<p>There are 4 registers to specify input data length loops and can be accessed as <cite>mvuolength_1</cite> to <cite>mvuolength_4</cite>.  Note, <cite>mvuolength_0</cite> is intentionally not used.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mvuolength.svg"><img alt="Alternative text" src="_images/mvuolength.svg" style="width: 800px;" /></a>
+</figure>
+</section>
+<section id="mvuprecision">
+<h3>mvuprecision<a class="headerlink" href="#mvuprecision" title="Link to this heading"></a></h3>
+<p><cite>weight precision</cite>, <cite>input precision</cite> and <cite>output precision</cite> indicates the computation precision accordingly. <cite>isign</cite> and <cite>wsign</cite> can be used to set if the data is signed <cite>1</cite> or not <cite>0</cite>.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mvuprecision.svg"><img alt="Alternative text" src="_images/mvuprecision.svg" style="width: 800px;" /></a>
+</figure>
+</section>
+<section id="mvustatus">
+<h3>mvustatus<a class="headerlink" href="#mvustatus" title="Link to this heading"></a></h3>
+<p>Specifies MVU status which is either <cite>busy</cite> (0) or <cite>done</cite> (1).</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mvustatus.svg"><img alt="Alternative text" src="_images/mvustatus.svg" style="width: 800px;" /></a>
+</figure>
+</section>
+<section id="mvucommand">
+<h3>mvucommand<a class="headerlink" href="#mvucommand" title="Link to this heading"></a></h3>
+<p>Setting any value to this register will send a kick start signal to MVU to start the configured job. The register fields are described in <a class="reference internal" href="#control-status-registers"><span class="std std-ref">Control Status Registers (MVU)</span></a>.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mvucommand.svg"><img alt="Alternative text" src="_images/mvucommand.svg" style="width: 800px;" /></a>
+</figure>
+</section>
+<section id="mvuquant">
+<h3>mvuquant<a class="headerlink" href="#mvuquant" title="Link to this heading"></a></h3>
+<p>In the case we need to quantize results, <cite>msbidx</cite> can be used. This field indicates that where does the <cite>msb</cite> position start.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mvuquant.svg"><img alt="Alternative text" src="_images/mvuquant.svg" style="width: 800px;" /></a>
+</figure>
+</section>
+<section id="mvuscaler">
+<h3>mvuscaler<a class="headerlink" href="#mvuscaler" title="Link to this heading"></a></h3>
+<p>A fixed point multiplier value that can be used to rescale a quantized value.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mvuscaler.svg"><img alt="Alternative text" src="_images/mvuscaler.svg" style="width: 800px;" /></a>
+</figure>
+</section>
+<section id="mvuconfig1">
+<h3>mvuconfig1<a class="headerlink" href="#mvuconfig1" title="Link to this heading"></a></h3>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mvuconfig1.svg"><img alt="Alternative text" src="_images/mvuconfig1.svg" style="width: 800px;" /></a>
+</figure>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="intro.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="verification.html" class="btn btn-neutral float-right" title="Verification" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
