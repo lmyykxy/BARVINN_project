@@ -1,5 +1,5 @@
-## MVU_ASIC
+## BARVINN_PROJECT
 
-### project mvu_asic
+### project barvinn_project
 
 > run `make help` for make target
