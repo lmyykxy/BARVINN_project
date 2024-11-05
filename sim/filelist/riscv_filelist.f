@@ -139,3 +139,5 @@
 /home/qingteng/Documents/Front_end/BARVINN_project/src/riscv/subsys/e203_subsys_pllclkdiv.v
 /home/qingteng/Documents/Front_end/BARVINN_project/src/riscv/subsys/e203_subsys_top.v
 
+/home/qingteng/Documents/Front_end/BARVINN_project/src/riscv/user/e203_sirv_icb_slv_test.v
+/home/qingteng/Documents/Front_end/BARVINN_project/src/riscv/user/e203_subsys_extperips.v
