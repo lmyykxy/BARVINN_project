@@ -46,7 +46,7 @@ sim: comp
 	cd ${RUN_DIR} && ${SIMV} +ntb_random_seed_automatic +TESTCASE=${E203_INSTR_TESTCASE}  | tee ${LOG_DIR}/simulation.log
 
 sim_debug: comp
-	cd ${RUN_DIR} && ${SIMV} -gui -full64 +ntb_random_seed_automatic +TESTCASE=${E203_INSTR_TESTCASE}
+	cd ${RUN_DIR} && ${SIMV} -gui +ntb_random_seed_automatic +TESTCASE=${E203_INSTR_TESTCASE}
 
 verdi: sim
 	cd ${RUN_DIR} && verdi -sverilog +v2k $(INC_DIR) -f $(FILELISTmvu) -f $(FILELISTriscv) -f $(FILELISTtb) -ssf ${RUN_DIR}/${TOP_MODULE}.fsdb
