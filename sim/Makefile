@@ -17,9 +17,10 @@ FILELISTriscv := ${FILELIST_DIR}/riscv_filelist.f
 FILELISTtb := ${FILELIST_DIR}/tb_filelist.f
 SIMV := ${RUN_DIR}/simv
 
-E203_INSTR_TESTCASE := ${PRESENT_DIR}/sim/data/rv32ui-p-add
-# TOP_MODULE := riscv_top
-TOP_MODULE := testbench_top
+E203_INSTR_TESTCASE := ${PRESENT_DIR}/sim/data/helloworld/helloworld
+# E203_INSTR_TESTCASE := ${PRESENT_DIR}/sim/data/rv32ui-p-xor
+TOP_MODULE := riscv_top
+# TOP_MODULE := testbench_top
 
 COMP_OPT := -sverilog \
 			+v2k \
