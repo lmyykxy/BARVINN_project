@@ -12,8 +12,14 @@ LOG_DIR := ${BEFORE_SIM}/log
 INC_DIR := +incdir+${SRC_DIR}
 
 
-FILELIST := ${FILELIST_DIR}/filelist.f
+FILELISTmvu := ${FILELIST_DIR}/mvu_filelist.f 
+FILELISTriscv := ${FILELIST_DIR}/riscv_filelist.f
+FILELISTtb := ${FILELIST_DIR}/tb_filelist.f
 SIMV := ${RUN_DIR}/simv
+
+E203_INSTR_TESTCASE := ${PRESENT_DIR}/sim/data/rv32ui-p-add
+TOP_MODULE := riscv_top
+# TOP_MODULE := testbench_top
 
 COMP_OPT := -sverilog \
 			+v2k \
@@ -34,16 +40,16 @@ generate_filelist:
 
 
 comp: 
-	cd ${RUN_DIR} && vcs -kdb $(COMP_OPT) $(INC_DIR) -f $(FILELIST) | tee ${LOG_DIR}/compilation.log
+	cd ${RUN_DIR} && vcs -kdb $(COMP_OPT) $(INC_DIR) -f $(FILELISTmvu) -f $(FILELISTriscv) -f $(FILELISTtb) -top $(TOP_MODULE) | tee ${LOG_DIR}/compilation.log
 
 sim: comp 
-	cd ${RUN_DIR} && ${SIMV}  | tee ${LOG_DIR}/simulation.log
+	cd ${RUN_DIR} && ${SIMV} +ntb_random_seed_automatic +TESTCASE=${E203_INSTR_TESTCASE}  | tee ${LOG_DIR}/simulation.log
 
 sim_debug: comp
-	cd ${RUN_DIR} && ${SIMV} -gui -full64
+	cd ${RUN_DIR} && ${SIMV} -gui -full64 +ntb_random_seed_automatic +TESTCASE=${E203_INSTR_TESTCASE}
 
 verdi: sim
-	cd ${RUN_DIR} && verdi -sverilog +v2k $(INC_DIR) -f $(FILELIST) -ssf ${RUN_DIR}/mvu.fsdb
+	cd ${RUN_DIR} && verdi -sverilog +v2k $(INC_DIR) -f $(FILELISTmvu) -f $(FILELISTriscv) -f $(FILELISTtb) -ssf ${RUN_DIR}/${TOP_MODULE}.fsdb
 
 clean:
 	find ${RUN_DIR} -mindepth 1 -not -name '.gitignore' -exec rm -rf {} +

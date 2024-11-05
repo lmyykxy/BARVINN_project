@@ -16,7 +16,7 @@
 
 module testbench_top import utils::*;import testbench_pkg::*; ();
 initial begin
-    $fsdbDumpfile("mvu.fsdb");
+    $fsdbDumpfile("testbench_top.fsdb");
     $fsdbDumpvars("+all");
 end
 
