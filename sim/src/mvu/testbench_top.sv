@@ -24,7 +24,7 @@ end
 //==================================================================================================
 // Test variables
     Logger logger;
-    string sim_log_file = "test.log";
+    string sim_log_file = "mvu-testbench.log";
 //==================================================================================================
     logic clk;
 
@@ -39,8 +39,8 @@ end
     `APB_ASSIGN ( apb_slave, apb_slave_dv )
     
     MVU_EXT_INTERFACE mvu_ext(clk);
-	MVU_CFG_INTERFACE mvu_cfg_if();
-    mvutop_wrapper mvutop_wrapper(mvu_ext,mvu_cfg_if, apb_slave);
+
+    mvutop_wrapper mvutop_wrapper(mvu_ext, apb_slave);
 
     // Select which testbench to run
 `ifdef TB_GEMV 
@@ -57,7 +57,7 @@ end
 
     initial begin
         logger = new(sim_log_file);
-        tb = new(logger, mvu_ext,mvu_cfg_if, apb_slave_dv);
+        tb = new(logger, mvu_ext, apb_slave_dv);
 
         tb.tb_setup();
         tb.run();

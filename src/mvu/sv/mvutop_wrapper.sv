@@ -1,10 +1,9 @@
 `include "apb_intf.sv"
 module mvutop_wrapper import mvu_pkg::*;import apb_pkg::*;(
         MVU_EXT_INTERFACE mvu_ext_if,
-		MVU_CFG_INTERFACE mvu_cfg_if,
         APB apb
 );
-
+MVU_CFG_INTERFACE mvu_cfg_if();
 mvutop mvu(
     mvu_ext_if.mvu_ext,
     mvu_cfg_if.mvu_cfg
@@ -131,7 +130,7 @@ end
 
     // Circuit for generating start Signal
     genvar i;
-    generate for(i=0; i < NMVU; i = i+1) begin :GEN
+    generate for(i=0; i < NMVU; i = i+1) begin
         always @(posedge mvu_ext_if.clk) begin
             if (~mvu_ext_if.rst_n) begin
                 mvu_ext_if.start[i] <= 1'b0;
@@ -150,4 +149,3 @@ end
     end endgenerate
 
 endmodule
-

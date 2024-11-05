@@ -9,8 +9,8 @@
 class gemv_tester extends mvu_testbench_base;
 	virtual MVU_CFG_INTERFACE intf;
 
-    function new(Logger logger, virtual MVU_EXT_INTERFACE mvu_ext_if, virtual MVU_CFG_INTERFACE intf,  virtual APB_DV#(.ADDR_WIDTH(mvu_pkg::APB_ADDR_WIDTH), .DATA_WIDTH(mvu_pkg::APB_DATA_WIDTH))  apb);
-        super.new(logger, mvu_ext_if,intf, apb);
+    function new(Logger logger, virtual MVU_EXT_INTERFACE mvu_ext_if, virtual APB_DV#(.ADDR_WIDTH(mvu_pkg::APB_ADDR_WIDTH), .DATA_WIDTH(mvu_pkg::APB_DATA_WIDTH))  apb);
+        super.new(logger, mvu_ext_if, apb);
 		this.intf = intf;
     endfunction
 

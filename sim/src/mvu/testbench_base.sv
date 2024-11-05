@@ -23,7 +23,6 @@ class mvu_testbench_base extends BaseObj;
         .TT        (mvu_pkg::APB_TestTime  )
     ) apb_master;
     virtual MVU_EXT_INTERFACE mvu_ext_if;
-    virtual MVU_CFG_INTERFACE mvu_cfg_if;
     test_stats_t test_stat = '{pass_cnt: 0, fail_cnt: 0};
     tb_config cfg;
 
@@ -33,14 +32,13 @@ class mvu_testbench_base extends BaseObj;
     mvu_pkg::apb_data_t apb_data;
     mvu_pkg::apb_strb_t apb_strb;
 
-    function new (Logger logger, virtual MVU_EXT_INTERFACE mvu_ext_if, virtual MVU_CFG_INTERFACE mvu_cfg_if, virtual APB_DV #(.ADDR_WIDTH(mvu_pkg::APB_ADDR_WIDTH), .DATA_WIDTH(mvu_pkg::APB_DATA_WIDTH))  apb_slave_dv);
+    function new (Logger logger, virtual MVU_EXT_INTERFACE mvu_ext_if, virtual APB_DV #(.ADDR_WIDTH(mvu_pkg::APB_ADDR_WIDTH), .DATA_WIDTH(mvu_pkg::APB_DATA_WIDTH))  apb_slave_dv);
         super.new(logger);
         cfg = new(logger);
         void'(cfg.parse_args());
         this.apb_slave_dv = apb_slave_dv;
         this.apb_master = new(this.apb_slave_dv);
         this.mvu_ext_if = mvu_ext_if;
-        this.mvu_cfg_if = mvu_cfg_if;
     endfunction
 
 // =================================================================================================
