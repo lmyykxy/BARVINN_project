@@ -18,8 +18,8 @@ FILELISTtb := ${FILELIST_DIR}/tb_filelist.f
 SIMV := ${RUN_DIR}/simv
 
 E203_INSTR_TESTCASE := ${PRESENT_DIR}/sim/data/rv32ui-p-add
-TOP_MODULE := riscv_top
-# TOP_MODULE := testbench_top
+# TOP_MODULE := riscv_top
+TOP_MODULE := testbench_top
 
 COMP_OPT := -sverilog \
 			+v2k \
