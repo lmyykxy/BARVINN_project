@@ -322,6 +322,19 @@ module e203_subsys_perips(
   wire [32-1:0]            hclkgen_icb_rsp_rdata;
   wire                     hclkgen_icb_rsp_err;
 
+  wire                     extppi_icb_cmd_valid;
+  wire                     extppi_icb_cmd_ready;
+  wire [32-1:0]   	       extppi_icb_cmd_addr; 
+  wire                     extppi_icb_cmd_read; 
+  wire [32-1:0]            extppi_icb_cmd_wdata;
+  wire [4-1:0]             extppi_icb_cmd_wmask;
+
+  wire                     extppi_icb_rsp_valid;
+  wire                     extppi_icb_rsp_ready;
+  wire                     extppi_icb_rsp_err;
+  wire [32-1:0]            extppi_icb_rsp_rdata;
+
+
   // The total address range for the PPI is from/to
   //  **************0x1000 0000 -- 0x1FFF FFFF
   // There are several slaves for PPI bus, including:
@@ -339,7 +352,7 @@ module e203_subsys_perips(
   //  * I2C1      : 0x1003 5000 -- 0x1003 5FFF
   //  * GPIOB     : 0x1004 0000 -- 0x1004 0FFF
   //  * Example-AXI      : 0x1004 1000 -- 0x1004 1FFF
-  //  * Reserved         : 0x1004 2000 -- 0x1004 2FFF
+  //  * EXT PPI          : 0x1200 0000 -- 0x15FF FFFF
   //  * SysPer    : 0x1100 0000 -- 0x11FF FFFF
 
   sirv_icb1to16_bus # (
@@ -398,9 +411,10 @@ module e203_subsys_perips(
   .O14_BASE_ADDR       (32'h1004_1000),       
   .O14_BASE_REGION_LSB (12),
   
-  // * Reserved 
-  .O15_BASE_ADDR       (32'h1004_2000),       
-  .O15_BASE_REGION_LSB (3)
+  // * EXT PPI   : 0x1200 0000 -- 0x15FF FFFF
+  .O15_BASE_ADDR       (32'h1200_0000),       
+  .O15_BASE_REGION_LSB (24)
+
 
   )u_sirv_ppi_fab(
 
@@ -741,26 +755,26 @@ module e203_subsys_perips(
     .o14_icb_rsp_rdata  (expl_axi_icb_rsp_rdata),
 
 
-   //  *      
-    .o15_icb_enable     (1'b0),
+   //  * EXT PPI     
+    .o15_icb_enable     (1'b1),
 
-    .o15_icb_cmd_valid  (),
-    .o15_icb_cmd_ready  (1'b0),
-    .o15_icb_cmd_addr   (),
-    .o15_icb_cmd_read   (),
-    .o15_icb_cmd_wdata  (),
-    .o15_icb_cmd_wmask  (),
+    .o15_icb_cmd_valid  (extppi_icb_cmd_valid),
+    .o15_icb_cmd_ready  (extppi_icb_cmd_ready),
+    .o15_icb_cmd_addr   (extppi_icb_cmd_addr),
+    .o15_icb_cmd_read   (extppi_icb_cmd_read),
+    .o15_icb_cmd_wdata  (extppi_icb_cmd_wdata),
+    .o15_icb_cmd_wmask  (extppi_icb_cmd_wmask),
     .o15_icb_cmd_lock   (),
     .o15_icb_cmd_excl   (),
     .o15_icb_cmd_size   (),
     .o15_icb_cmd_burst  (),
     .o15_icb_cmd_beat   (),
     
-    .o15_icb_rsp_valid  (1'b0),
-    .o15_icb_rsp_ready  (),
-    .o15_icb_rsp_err    (1'b0),
+    .o15_icb_rsp_valid  (extppi_icb_rsp_valid),
+    .o15_icb_rsp_ready  (extppi_icb_rsp_ready),
+    .o15_icb_rsp_err    (extppi_icb_rsp_err),
     .o15_icb_rsp_excl_ok(1'b0),
-    .o15_icb_rsp_rdata  (32'b0),
+    .o15_icb_rsp_rdata  (extppi_icb_rsp_rdata),
 
     .clk           (clk  ),
     .rst_n         (bus_rst_n) 
@@ -1971,6 +1985,25 @@ sirv_expl_axi_slv # (
     .i_icb_rsp_ready(hclkgen_icb_rsp_ready),
     .i_icb_rsp_rdata(hclkgen_icb_rsp_rdata)
   );
+
+    e203_subsys_extperips u_e203_subsys_extperips (
+    .extppi_icb_cmd_valid     (extppi_icb_cmd_valid),
+    .extppi_icb_cmd_ready     (extppi_icb_cmd_ready),
+    .extppi_icb_cmd_addr      (extppi_icb_cmd_addr ),
+    .extppi_icb_cmd_read      (extppi_icb_cmd_read ),
+    .extppi_icb_cmd_wdata     (extppi_icb_cmd_wdata),
+    .extppi_icb_cmd_wmask     (extppi_icb_cmd_wmask),
+    
+    .extppi_icb_rsp_valid     (extppi_icb_rsp_valid),
+    .extppi_icb_rsp_ready     (extppi_icb_rsp_ready),
+    .extppi_icb_rsp_err       (extppi_icb_rsp_err  ),
+    .extppi_icb_rsp_rdata     (extppi_icb_rsp_rdata),
+
+    .clk           (clk  ),
+    .bus_rst_n     (bus_rst_n),
+    .rst_n         (rst_n)
+  );
+
 
 
   // The GPIOA IOF SET 
