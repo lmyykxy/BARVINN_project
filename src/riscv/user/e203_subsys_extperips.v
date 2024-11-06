@@ -41,17 +41,12 @@ module e203_subsys_extperips(
   output                         extppi_icb_rsp_err,
   output [`E203_XLEN-1:0]        extppi_icb_rsp_rdata,
 
-  output                         mvu_icb_cmd_valid,
-  input                          mvu_icb_cmd_ready,
-  output [32-1:0]                mvu_icb_cmd_addr,
-  input                          mvu_icb_cmd_read,
-  output [32-1:0]                mvu_icb_cmd_wdata,
-  output [4 -1:0]                mvu_icb_cmd_wmask,
-
-  input                          mvu_icb_rsp_valid,
-  output                         mvu_icb_rsp_ready,
-  input [32-1:0]                 mvu_icb_rsp_rdata,
-  input                          mvu_icb_rsp_err,
+  output [32-1:0]                mvu_apb_paddr,  
+  output                         mvu_apb_pwrite, 
+  output                         mvu_apb_pselx,  
+  output                         mvu_apb_penable,
+  output [32-1:0]                mvu_apb_pwdata, 
+  input  [32-1:0]                mvu_apb_prdata, 
 
   input  clk,
   input  bus_rst_n,
@@ -69,6 +64,19 @@ module e203_subsys_extperips(
   wire                     exttest_icb_rsp_ready;
   wire [32-1:0]            exttest_icb_rsp_rdata;
   wire                     exttest_icb_rsp_err;
+
+  wire                     mvu_icb_cmd_valid;
+  wire                     mvu_icb_cmd_ready;
+  wire [32-1:0]            mvu_icb_cmd_addr; 
+  wire                     mvu_icb_cmd_read; 
+  wire [32-1:0]            mvu_icb_cmd_wdata;
+  wire [4 -1:0]            mvu_icb_cmd_wmask;
+
+  wire                     mvu_icb_rsp_valid;
+  wire                     mvu_icb_rsp_ready;
+  wire [32-1:0]            mvu_icb_rsp_rdata;
+  wire                     mvu_icb_rsp_err;
+
 
   // The total address range for the EXTPPI is from/to
   //  **************0x1200 0000 -- 0x19FF FFFF
@@ -529,5 +537,34 @@ sirv_icb_slv_test module_test(
     .bus_rst_n     (bus_rst_n),
     .rst_n         (rst_n)
 );
+
+
+sirv_gnrl_icb2apb # (
+  .AW   (32),
+  .DW   (`E203_XLEN) 
+) u_i2c0_apb_icb2apb(
+    .i_icb_cmd_valid (mvu_icb_cmd_valid),
+    .i_icb_cmd_ready (mvu_icb_cmd_ready),
+    .i_icb_cmd_addr  (mvu_icb_cmd_addr ),
+    .i_icb_cmd_read  (mvu_icb_cmd_read ),
+    .i_icb_cmd_wdata (mvu_icb_cmd_wdata),
+    .i_icb_cmd_wmask (mvu_icb_cmd_wmask),
+    .i_icb_cmd_size  (),
+    
+    .i_icb_rsp_valid (mvu_icb_rsp_valid),
+    .i_icb_rsp_ready (mvu_icb_rsp_ready),
+    .i_icb_rsp_rdata (mvu_icb_rsp_rdata),
+    .i_icb_rsp_err   (mvu_icb_rsp_err),
+
+    .apb_paddr       (mvu_apb_paddr  ),
+    .apb_pwrite      (mvu_apb_pwrite ),
+    .apb_pselx       (mvu_apb_pselx  ),
+    .apb_penable     (mvu_apb_penable), 
+    .apb_pwdata      (mvu_apb_pwdata ),
+    .apb_prdata      (mvu_apb_prdata ),
+
+    .clk             (clk  ),
+    .rst_n           (bus_rst_n) 
+  );
 
 endmodule

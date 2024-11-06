@@ -39,3 +39,4 @@
 /home/qingteng/Documents/Front_end/BARVINN_project/src/mvu/sv/inagu.sv
 /home/qingteng/Documents/Front_end/BARVINN_project/src/mvu/sv/mvutop.sv
 /home/qingteng/Documents/Front_end/BARVINN_project/src/mvu/sv/mvutop_wrapper.sv
+/home/qingteng/Documents/Front_end/BARVINN_project/sim/src/riscv/mvu_v_wrapper.sv
