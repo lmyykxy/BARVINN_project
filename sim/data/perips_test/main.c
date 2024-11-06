@@ -89,7 +89,7 @@ int main(void)
     printf("MISA: 0x%lx\r\n", misa);
     print_misa();
 
-    uint32_t *address = (uint32_t*)0x12000000;
+    uint32_t *address = (uint32_t*)0x12100000;
     printf("Data read is %x\r\n", *address);
 
     for (int i = 0; i < 20; i ++) {

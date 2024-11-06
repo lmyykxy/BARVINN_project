@@ -233,9 +233,9 @@ int main(void)
     print_misa();
 80000126:	2175                	jal	800005d2 <print_misa>
 
-    uint32_t *address = (uint32_t*)0x12000000;
+    uint32_t *address = (uint32_t*)0x12100000;
     printf("Data read is %x\r\n", *address);
-80000128:	120007b7          	lui	a5,0x12000
+80000128:	121007b7          	lui	a5,0x12100
 8000012c:	438c                	lw	a1,0(a5)
 8000012e:	00002517          	auipc	a0,0x2
 80000132:	09650513          	addi	a0,a0,150 # 800021c4 <_getpid_r+0xee>
@@ -15978,7 +15978,7 @@ Disassembly of section .debug_info:
     2b12:	04aa                	slli	s1,s1,0xa
     2b14:	0000                	unimp
     2b16:	0000                	unimp
-    2b18:	1200                	addi	s0,sp,288
+    2b18:	1210                	addi	a2,sp,288
     2b1a:	0001060f          	0x1060f
     2b1e:	0480                	addi	s0,sp,576
     2b20:	0000                	unimp
