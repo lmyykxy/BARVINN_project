@@ -88,17 +88,13 @@ module e203_soc_top(
 
   //////////////////////////////////////////////////////////////
   // mvu interface
-  output                         mvu_icb_cmd_valid,
-  input                          mvu_icb_cmd_ready,
-  output [32-1:0]                mvu_icb_cmd_addr,
-  input                          mvu_icb_cmd_read,
-  output [32-1:0]                mvu_icb_cmd_wdata,
-  output [4 -1:0]                mvu_icb_cmd_wmask,
+  output [32-1:0]                mvu_apb_paddr,  
+  output                         mvu_apb_pwrite, 
+  output                         mvu_apb_pselx,  
+  output                         mvu_apb_penable,
+  output [32-1:0]                mvu_apb_pwdata, 
+  input  [32-1:0]                mvu_apb_prdata
 
-  input                          mvu_icb_rsp_valid,
-  output                         mvu_icb_rsp_ready,
-  input [32-1:0]                 mvu_icb_rsp_rdata,
-  input                          mvu_icb_rsp_err
 );
 
 
@@ -158,17 +154,12 @@ module e203_soc_top(
   .sysper_icb_rsp_err   (1'b0  ),
   .sysper_icb_rsp_rdata (32'b0),
 
-  .mvu_icb_cmd_valid	   (mvu_icb_cmd_valid),
-  .mvu_icb_cmd_ready	   (mvu_icb_cmd_ready),
-  .mvu_icb_cmd_addr	       (mvu_icb_cmd_addr),
-  .mvu_icb_cmd_read	       (mvu_icb_cmd_read),
-  .mvu_icb_cmd_wdata	   (mvu_icb_cmd_wdata),
-  .mvu_icb_cmd_wmask	   (mvu_icb_cmd_wmask),
-
-  .mvu_icb_rsp_valid	   (mvu_icb_rsp_valid),
-  .mvu_icb_rsp_ready	   (mvu_icb_rsp_ready),
-  .mvu_icb_rsp_rdata	   (mvu_icb_rsp_rdata),
-  .mvu_icb_rsp_err	       (mvu_icb_rsp_err),
+  .mvu_apb_paddr           (mvu_apb_paddr  ),
+  .mvu_apb_pwrite          (mvu_apb_pwrite ),
+  .mvu_apb_pselx           (mvu_apb_pselx  ),
+  .mvu_apb_penable         (mvu_apb_penable), 
+  .mvu_apb_pwdata          (mvu_apb_pwdata ),
+  .mvu_apb_prdata          (mvu_apb_prdata ),
 
   .sysfio_icb_cmd_valid(sysfio_icb_cmd_valid),
   .sysfio_icb_cmd_ready(sysfio_icb_cmd_ready),

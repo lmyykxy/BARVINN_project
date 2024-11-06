@@ -16,16 +16,12 @@ end
 
   //////////////////////////////////////////////////////////////
   // mvu interface
-  wire	                         mvu_icb_cmd_valid;
-  wire	                         mvu_icb_cmd_ready;
-  wire	 [32-1:0]                mvu_icb_cmd_addr;
-  wire	                         mvu_icb_cmd_read;
-  wire	 [32-1:0]                mvu_icb_cmd_wdata;
-  wire	 [4 -1:0]                mvu_icb_cmd_wmask;
-  wire	                         mvu_icb_rsp_valid;
-  wire	                         mvu_icb_rsp_ready;
-  wire	[32-1:0]                 mvu_icb_rsp_rdata;
-  wire	                         mvu_icb_rsp_err;
+  wire [32-1:0] mvu_apb_paddr;
+  wire          mvu_apb_pwrite;
+  wire          mvu_apb_pselx;
+  wire          mvu_apb_penable;
+  wire [32-1:0] mvu_apb_pwdata;
+  wire [32-1:0] mvu_apb_prdata;
 
   `define CPU_TOP u_e203_soc_top.u_e203_subsys_top.u_e203_subsys_main.u_e203_cpu_top
   `define EXU `CPU_TOP.u_e203_cpu.u_e203_core.u_e203_exu
@@ -344,40 +340,42 @@ e203_soc_top u_e203_soc_top(
    .io_pads_dbgmode1_n_i_ival       (1'b1),
    .io_pads_dbgmode2_n_i_ival       (1'b1) ,
 
-   .mvu_icb_cmd_valid	   (mvu_icb_cmd_valid),
-   .mvu_icb_cmd_ready	   (mvu_icb_cmd_ready),
-   .mvu_icb_cmd_addr	   (mvu_icb_cmd_addr),
-   .mvu_icb_cmd_read	   (mvu_icb_cmd_read),
-   .mvu_icb_cmd_wdata	   (mvu_icb_cmd_wdata),
-   .mvu_icb_cmd_wmask	   (mvu_icb_cmd_wmask),
-
-   .mvu_icb_rsp_valid	   (mvu_icb_rsp_valid),
-   .mvu_icb_rsp_ready	   (mvu_icb_rsp_ready),
-   .mvu_icb_rsp_rdata	   (mvu_icb_rsp_rdata),
-   .mvu_icb_rsp_err	       (mvu_icb_rsp_err)
+   .mvu_apb_paddr       (mvu_apb_paddr  ),
+   .mvu_apb_pwrite      (mvu_apb_pwrite ),
+   .mvu_apb_pselx       (mvu_apb_pselx  ),
+   .mvu_apb_penable     (mvu_apb_penable), 
+   .mvu_apb_pwdata      (mvu_apb_pwdata ),
+   .mvu_apb_prdata      (mvu_apb_prdata )
 
 );
 
+/*
+// apb test module
+sirv_apb_slv_test mvu_apb_test(
+  .apb_paddr				(mvu_apb_paddr  ),
+  .apb_pwrite				(mvu_apb_pwrite ),
+  .apb_pselx				(mvu_apb_pselx  ),
+  .apb_penable				(mvu_apb_penable),
+  .apb_pwdata				(mvu_apb_pwdata ),
+  .apb_prdata				(mvu_apb_prdata ),
 
-sirv_icb_slv_test module_test(
-    .i_icb_cmd_valid (mvu_icb_cmd_valid),
-    .i_icb_cmd_ready (mvu_icb_cmd_ready),
-    .i_icb_cmd_addr  (mvu_icb_cmd_addr),
-    .i_icb_cmd_read  (mvu_icb_cmd_read),
-    .i_icb_cmd_wdata (mvu_icb_cmd_wdata),
-    .i_icb_cmd_wmask (mvu_icb_cmd_wmask),
-    
-    .i_icb_rsp_valid (mvu_icb_rsp_valid),
-    .i_icb_rsp_ready (mvu_icb_rsp_ready),
-    .i_icb_rsp_rdata (mvu_icb_rsp_rdata),
-    .i_icb_rsp_err   (mvu_icb_rsp_err),
-
-	.clk           (clk  ),
-    .bus_rst_n     (1'b1),
-    .rst_n         (rst_n)
+  .clk						(clk),
+  .rst_n					(rst_n)
 );
+*/
 
+mvu_u_wrapper u_mvu_top(
+	.clk			(clk),
+	.rst_n			(rst_n),
 
+	.paddr			(mvu_apb_paddr  ),
+	.psel			(mvu_apb_pselx  ),
+	.penable		(mvu_apb_penable),
+	.pwrite			(mvu_apb_pwrite ),
+	.pwdata			(mvu_apb_pwdata ),
+
+	.prdata			(mvu_apb_prdata )
+);
 
 endmodule
 

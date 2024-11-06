@@ -55,17 +55,12 @@ module e203_subsys_perips(
   input  [`E203_XLEN-1:0]        sysper_icb_rsp_rdata,
 
   //////////////////////////////////////////////////////////
-  output                         mvu_icb_cmd_valid,
-  input                          mvu_icb_cmd_ready,
-  output [32-1:0]                mvu_icb_cmd_addr,
-  input                          mvu_icb_cmd_read,
-  output [32-1:0]                mvu_icb_cmd_wdata,
-  output [4 -1:0]                mvu_icb_cmd_wmask,
-
-  input                          mvu_icb_rsp_valid,
-  output                         mvu_icb_rsp_ready,
-  input [32-1:0]                 mvu_icb_rsp_rdata,
-  input                          mvu_icb_rsp_err,
+  output [32-1:0]                mvu_apb_paddr,  
+  output                         mvu_apb_pwrite, 
+  output                         mvu_apb_pselx,  
+  output                         mvu_apb_penable,
+  output [32-1:0]                mvu_apb_pwdata, 
+  input  [32-1:0]                mvu_apb_prdata, 
   //////////////////////////////////////////////////////////
   output                         aon_icb_cmd_valid,
   input                          aon_icb_cmd_ready,
@@ -2011,18 +2006,13 @@ sirv_expl_axi_slv # (
     .extppi_icb_rsp_err       (extppi_icb_rsp_err  ),
     .extppi_icb_rsp_rdata     (extppi_icb_rsp_rdata),
 
+    .mvu_apb_paddr       (mvu_apb_paddr  ),
+    .mvu_apb_pwrite      (mvu_apb_pwrite ),
+    .mvu_apb_pselx       (mvu_apb_pselx  ),
+    .mvu_apb_penable     (mvu_apb_penable), 
+    .mvu_apb_pwdata      (mvu_apb_pwdata ),
+    .mvu_apb_prdata      (mvu_apb_prdata ),
 
-    .mvu_icb_cmd_valid		  (mvu_icb_cmd_valid),
-    .mvu_icb_cmd_ready		  (mvu_icb_cmd_ready),
-    .mvu_icb_cmd_addr		  (mvu_icb_cmd_addr),
-    .mvu_icb_cmd_read		  (mvu_icb_cmd_read),
-    .mvu_icb_cmd_wdata		  (mvu_icb_cmd_wdata),
-    .mvu_icb_cmd_wmask		  (mvu_icb_cmd_wmask),
-
-    .mvu_icb_rsp_valid		  (mvu_icb_rsp_valid),
-    .mvu_icb_rsp_ready		  (mvu_icb_rsp_ready),
-    .mvu_icb_rsp_rdata		  (mvu_icb_rsp_rdata),
-    .mvu_icb_rsp_err		  (mvu_icb_rsp_err),
     
     .clk           (clk  ),
     .bus_rst_n     (bus_rst_n),
