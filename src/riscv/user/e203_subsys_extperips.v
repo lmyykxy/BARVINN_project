@@ -41,6 +41,18 @@ module e203_subsys_extperips(
   output                         extppi_icb_rsp_err,
   output [`E203_XLEN-1:0]        extppi_icb_rsp_rdata,
 
+  output                         mvu_icb_cmd_valid,
+  input                          mvu_icb_cmd_ready,
+  output [32-1:0]                mvu_icb_cmd_addr,
+  input                          mvu_icb_cmd_read,
+  output [32-1:0]                mvu_icb_cmd_wdata,
+  output [4 -1:0]                mvu_icb_cmd_wmask,
+
+  input                          mvu_icb_rsp_valid,
+  output                         mvu_icb_rsp_ready,
+  input [32-1:0]                 mvu_icb_rsp_rdata,
+  input                          mvu_icb_rsp_err,
+
   input  clk,
   input  bus_rst_n,
   input  rst_n
@@ -62,7 +74,7 @@ module e203_subsys_extperips(
   //  **************0x1200 0000 -- 0x19FF FFFF
   // There are several slaves for EXTPPI bus, including:
   //  * TEST                : 0x1200 0000 -- 0x120F FFFF
-  //  * Preserved 1         : 0x1210 0000 -- 0x121F FFFF
+  //  * MVU			        : 0x1210 0000 -- 0x121F FFFF
   //  * Preserved 2         : 0x1220 0000 -- 0x122F FFFF
   //  * Preserved 3         : 0x1230 0000 -- 0x123F FFFF
   //  * Preserved 4         : 0x1240 0000 -- 0x124F FFFF
@@ -177,26 +189,26 @@ module e203_subsys_extperips(
     .o0_icb_rsp_excl_ok(1'b0),
     .o0_icb_rsp_rdata  (exttest_icb_rsp_rdata),
 
-
+  // MVU
     .o1_icb_enable     (1'b1),
 
-    .o1_icb_cmd_valid  (),
-    .o1_icb_cmd_ready  (1'b0),
-    .o1_icb_cmd_addr   (),
-    .o1_icb_cmd_read   (),
-    .o1_icb_cmd_wdata  (),
-    .o1_icb_cmd_wmask  (),
+    .o1_icb_cmd_valid  (mvu_icb_cmd_valid),
+    .o1_icb_cmd_ready  (mvu_icb_cmd_ready),
+    .o1_icb_cmd_addr   (mvu_icb_cmd_addr),
+    .o1_icb_cmd_read   (mvu_icb_cmd_read),
+    .o1_icb_cmd_wdata  (mvu_icb_cmd_wdata),
+    .o1_icb_cmd_wmask  (mvu_icb_cmd_wmask),
     .o1_icb_cmd_lock   (),
     .o1_icb_cmd_excl   (),
     .o1_icb_cmd_size   (),
     .o1_icb_cmd_burst  (),
     .o1_icb_cmd_beat   (),
     
-    .o1_icb_rsp_valid  (1'b0),
-    .o1_icb_rsp_ready  (),
-    .o1_icb_rsp_err    (1'b0),
+    .o1_icb_rsp_valid  (mvu_icb_rsp_valid),
+    .o1_icb_rsp_ready  (mvu_icb_rsp_ready),
+    .o1_icb_rsp_err    (mvu_icb_rsp_err),
     .o1_icb_rsp_excl_ok(1'b0),
-    .o1_icb_rsp_rdata  (32'b0),
+    .o1_icb_rsp_rdata  (mvu_icb_rsp_rdata),
 
 
   //  * Preserved 2      

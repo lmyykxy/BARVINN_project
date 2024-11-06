@@ -52,6 +52,6 @@ assign i_icb_cmd_ready = i_icb_rsp_ready;
 assign i_icb_rsp_valid = icb_cmd_read_real | icb_cmd_write_real;
 
 assign i_icb_rsp_err = 1'b0;
-assign i_icb_rsp_rdata = {`E203_XLEN{1'b1}};
+assign i_icb_rsp_rdata = (i_icb_rsp_valid == 1'b1) ? 32'h0123_4567 : 32'h0;
 
 endmodule

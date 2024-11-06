@@ -101,7 +101,7 @@ Disassembly of section .text:
 8000011e:	09a50513          	addi	a0,a0,154 # 800021b4 <_getpid_r+0xde>
 80000122:	2e7000ef          	jal	ra,80000c08 <iprintf>
 80000126:	2175                	jal	800005d2 <print_misa>
-80000128:	120007b7          	lui	a5,0x12000
+80000128:	121007b7          	lui	a5,0x12100
 8000012c:	438c                	lw	a1,0(a5)
 8000012e:	00002517          	auipc	a0,0x2
 80000132:	09650513          	addi	a0,a0,150 # 800021c4 <_getpid_r+0xee>

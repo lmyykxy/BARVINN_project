@@ -188,6 +188,19 @@ module e203_subsys_main(
   output                         sysper_icb_rsp_ready,
   input                          sysper_icb_rsp_err  ,
   input  [`E203_XLEN-1:0]        sysper_icb_rsp_rdata,
+  //////////////////////////////////////////////////////////////
+  // mvu interface
+  output                         mvu_icb_cmd_valid,
+  input                          mvu_icb_cmd_ready,
+  output [32-1:0]                mvu_icb_cmd_addr,
+  input                          mvu_icb_cmd_read,
+  output [32-1:0]                mvu_icb_cmd_wdata,
+  output [4 -1:0]                mvu_icb_cmd_wmask,
+
+  input                          mvu_icb_rsp_valid,
+  output                         mvu_icb_rsp_ready,
+  input [32-1:0]                 mvu_icb_rsp_rdata,
+  input                          mvu_icb_rsp_err,
 
   `ifdef E203_HAS_FIO //{
   //////////////////////////////////////////////////////////////
@@ -748,6 +761,18 @@ e203_subsys_clint u_e203_subsys_clint(
     .sysper_icb_rsp_ready  (sysper_icb_rsp_ready),
     .sysper_icb_rsp_err    (sysper_icb_rsp_err  ),
     .sysper_icb_rsp_rdata  (sysper_icb_rsp_rdata),
+
+    .mvu_icb_cmd_valid	   (mvu_icb_cmd_valid),
+    .mvu_icb_cmd_ready	   (mvu_icb_cmd_ready),
+    .mvu_icb_cmd_addr	   (mvu_icb_cmd_addr),
+    .mvu_icb_cmd_read	   (mvu_icb_cmd_read),
+    .mvu_icb_cmd_wdata	   (mvu_icb_cmd_wdata),
+    .mvu_icb_cmd_wmask	   (mvu_icb_cmd_wmask),
+
+    .mvu_icb_rsp_valid	   (mvu_icb_rsp_valid),
+    .mvu_icb_rsp_ready	   (mvu_icb_rsp_ready),
+    .mvu_icb_rsp_rdata	   (mvu_icb_rsp_rdata),
+    .mvu_icb_rsp_err	   (mvu_icb_rsp_err),
 
     .aon_icb_cmd_valid     (aon_icb_cmd_valid),
     .aon_icb_cmd_ready     (aon_icb_cmd_ready),
