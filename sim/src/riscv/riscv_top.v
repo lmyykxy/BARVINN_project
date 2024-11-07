@@ -23,6 +23,8 @@ end
   wire [32-1:0] mvu_apb_pwdata;
   wire [32-1:0] mvu_apb_prdata;
 
+  wire [8-1:0]	mvu_irq;
+
   `define CPU_TOP u_e203_soc_top.u_e203_subsys_top.u_e203_subsys_main.u_e203_cpu_top
   `define EXU `CPU_TOP.u_e203_cpu.u_e203_core.u_e203_exu
   `define ITCM `CPU_TOP.u_e203_srams.u_e203_itcm_ram.u_e203_itcm_gnrl_ram.u_sirv_sim_ram
@@ -374,7 +376,9 @@ mvu_u_wrapper u_mvu_top(
 	.pwrite			(mvu_apb_pwrite ),
 	.pwdata			(mvu_apb_pwdata ),
 
-	.prdata			(mvu_apb_prdata )
+	.prdata			(mvu_apb_prdata ),
+
+	.mvu_irq		(mvu_irq)
 );
 
 endmodule

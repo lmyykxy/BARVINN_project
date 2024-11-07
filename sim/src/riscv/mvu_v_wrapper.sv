@@ -9,7 +9,10 @@ module mvu_u_wrapper (
 	input	wire 			pwrite,
 	input	wire [32-1:0]	pwdata,
 
-	output	wire [32-1:0]	prdata
+	output	wire [32-1:0]	prdata,
+
+	// mvu interrupt signal
+	output	wire [8-1:0]	mvu_irq
 );
 import mvu_pkg::*;import apb_pkg::*;
 
@@ -37,5 +40,6 @@ assign mvu_apb_if.pstrb 	= 4'b1111;
 assign prdata				= mvu_apb_if.prdata;
 
 assign mvu_ext_if.rst_n		= rst_n;
+assign mvu_irq = mvu_ext_if.irq;
 
 endmodule
