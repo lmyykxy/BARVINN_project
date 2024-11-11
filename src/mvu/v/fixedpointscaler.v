@@ -41,7 +41,6 @@ reg     signed      [BP-1 : 0]  p_q;
 
 
 // Implicit definition
-(* use_dsp48 = "yes" *) 
 always @(posedge clk) begin
     if (clr) begin
         a_q <= 0;

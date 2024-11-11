@@ -191,6 +191,8 @@ class mvu_testbench_base extends BaseObj;
 
     // Back-door function to read MVU data memory
     function logic[BWBANKW-1: 0] peekData(int mvu, int bank, int addr);
+	`ifdef LIB
+	`else
         case (mvu)
             0 : begin
                 case (bank)
@@ -499,6 +501,7 @@ class mvu_testbench_base extends BaseObj;
             default:
                 $error("Invalid MVU value.");
         endcase
+		`endif
     endfunction
 
     function logic peek_rdd_grnt(int mvu);
