@@ -87,6 +87,18 @@ assign dinb = 0;
         .dinb(dinb),        // input data (going nowhere, for now)
         .doutb(rd_word)  // output wire [64 : 0] doutb
     );
+`elsif LIB
+	tp_mem_1024X64 data_ram(
+		.clk				(clk),
+	
+		.rd_en				(rd_en),
+		.rd_addr			(rd_addr),
+		.rd_word			(rd_word),
+	
+		.wr_en				(wr_en),
+		.wr_addr			(wr_addr),
+		.wr_word			(wr_word)
+	);
 `else
     ram_simple2port #(
         .BDADDR (a),

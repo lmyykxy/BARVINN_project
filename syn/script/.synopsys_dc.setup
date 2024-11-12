@@ -1,0 +1,18 @@
+set search_path [list \
+    {file join /storage1/2024contest/server2_06/s2_06_fe/Desktop/11_12/BARVINN_project/src/mvu} \
+    {file join /storage1/2024contest/server2_06/s2_06_fe/Desktop/11_12/BARVINN_project/src/mvu/include} \
+    {file join /storage1/2024contest/server2_06/s2_06_fe/Desktop/11_12/BARVINN_project/src/mvu/sv} \
+    {file join /storage1/2024contest/server2_06/s2_06_fe/Desktop/11_12/BARVINN_project/src/mvu/usr_mem} \
+    {file join /storage1/2024contest/server2_06/s2_06_fe/Desktop/11_12/BARVINN_project/src/mvu/v} \
+]
+
+set root_path "/home/qingteng/Documents/TSMC_28nm/STDCELL/tcbn28hpcplusbwp12t40p140_180a/AN61001_20180514/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn28hpcplusbwp12t40p140_180a"
+set bc_time_lib_path "$root_path/tcbn28hpcplusbwp12t40p140ffg0p88v0c.db"
+set wc_time_lib_path "$root_path/tcbn28hpcplusbwp12t40p140ssg0p72v0c.db"
+set mem_lib_path 	"/home/qingteng/Documents/Front_end/poly_project/poly_512point_asic/all_asic/src/lib/2prf/ts6n28hpcphvta128x48m2f_130a/NLDM/ts6n28hpcphvta128x48m2f_130a_ffg0p99v0c.db\
+					"
+set_app_var link_library "$bc_time_lib_path $mem_lib_path *"
+set_app_var target_library "$bc_time_lib_path"
+set_min_library $bc_time_lib_path -min_version $wc_time_lib_path
+
+

@@ -15,8 +15,6 @@
 
 
 /home/qingteng/Documents/Front_end/BARVINN_project/src/mvu/v/bank64k.v
-// /home/qingteng/Documents/Front_end/BARVINN_project/src/mvu/v/bram2m.v
-// /home/qingteng/Documents/Front_end/BARVINN_project/src/mvu/v/bram64k.v
 /home/qingteng/Documents/Front_end/BARVINN_project/src/mvu/v/cdru.v
 /home/qingteng/Documents/Front_end/BARVINN_project/src/mvu/v/cdwu.v
 /home/qingteng/Documents/Front_end/BARVINN_project/src/mvu/v/controller.v
@@ -40,3 +38,9 @@
 /home/qingteng/Documents/Front_end/BARVINN_project/src/mvu/sv/mvutop.sv
 /home/qingteng/Documents/Front_end/BARVINN_project/src/mvu/sv/mvutop_wrapper.sv
 /home/qingteng/Documents/Front_end/BARVINN_project/sim/src/riscv/mvu_v_wrapper.sv
+
+/home/qingteng/Documents/Front_end/BARVINN_project/src/mvu/usr_mem/tp_mem_64X1024.v
+/home/qingteng/Documents/Front_end/BARVINN_project/src/mvu/usr_mem/tp_mem_64X2048.v
+/home/qingteng/Documents/Front_end/BARVINN_project/src/mvu/usr_mem/tp_mem_512X16.v
+/home/qingteng/Documents/Front_end/BARVINN_project/src/mvu/usr_mem/tp_mem_512X4096.v
+/home/qingteng/Documents/Front_end/BARVINN_project/src/mvu/usr_mem/tp_mem_1024X64.v

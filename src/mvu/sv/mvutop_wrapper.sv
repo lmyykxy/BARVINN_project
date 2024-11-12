@@ -237,7 +237,7 @@ end
 
     // Circuit for generating start Signal
     genvar i;
-    generate for(i=0; i < NMVU; i = i+1) begin
+    generate for(i=0; i < NMVU; i = i+1) begin: mvu_ext_block
         always @(posedge mvu_ext_if.clk) begin
             if (~mvu_ext_if.rst_n) begin
                 mvu_ext_if.start[i] <= 1'b0;

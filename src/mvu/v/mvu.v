@@ -278,6 +278,18 @@ always @(posedge clk) core_weights <= rdw_word;
         .addrb	(rdw_addr),		// read address from address generator
         .doutb	(core_weights)	// weight word to MVU core        
     );
+`elsif LIB
+	tp_mem_512X4096 weights_bank(
+		.clk				(clk),
+	
+		.rd_en				(rd_en),
+		.rd_addr			(rd_addr),
+		.rd_word			(rd_word),
+	
+		.wr_en				(wr_en),
+		.wr_addr			(wr_addr),
+		.wr_word			(wr_word)
+	);
  `else
     ram_simple2port #(
         .BDADDR (BWBANKA),
@@ -296,6 +308,19 @@ always @(posedge clk) core_weights <= rdw_word;
 
 // Scaler memory bank
 //      Used to store batch norm weights and/or quantization scalers
+`ifdef LIB
+	tp_mem_64X1024 scaler_bank(
+		.clk				(clk),
+	
+		.rd_en				(rd_en),
+		.rd_addr			(rd_addr),
+		.rd_word			(rd_word),
+	
+		.wr_en				(wr_en),
+		.wr_addr			(wr_addr),
+		.wr_word			(wr_word)
+	);
+`else
  ram_simple2port #(
     .BDADDR(BSBANKA),
     .BDWORD(BSBANKW)
@@ -308,12 +333,25 @@ always @(posedge clk) core_weights <= rdw_word;
     .wr_addr(wrs_addr),
     .wr_word(wrs_word)
  );
-
+`endif
 
  // Bias memory bank
  //     Stores bias values from conv/fc/bn layers
 // Scaler memory bank
 //      Used to store batch norm weights and/or quantization scalers
+`ifdef LIB
+	tp_mem_64X2048 bias_bank(
+		.clk				(clk),
+	
+		.rd_en				(rd_en),
+		.rd_addr			(rd_addr),
+		.rd_word			(rd_word),
+	
+		.wr_en				(wr_en),
+		.wr_addr			(wr_addr),
+		.wr_word			(wr_word)
+	);
+`else
  ram_simple2port #(
     .BDADDR(BBBANKA),
     .BDWORD(BBBANKW)
@@ -326,7 +364,7 @@ always @(posedge clk) core_weights <= rdw_word;
     .wr_addr(wrb_addr),
     .wr_word(wrb_word)
  );
-
+`endif
 
 // Negate the core output before accumulation, if the negation control is set to 1
 generate for (i=0; i < N; i=i+1) begin: acc_in_array
