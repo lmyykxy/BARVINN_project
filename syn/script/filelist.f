@@ -4,16 +4,14 @@
 +incdir+/storage1/2024contest/server2_06/s2_06_fe/Desktop/11_12/BARVINN_project/sim/src/mvu
 +incdir+/storage1/2024contest/server2_06/s2_06_fe/Desktop/11_12/BARVINN_project/src/mvu/include
 
+/storage1/2024contest/server2_06/s2_06_fe/Desktop/11_12/BARVINN_project/src/mvu/usr_mem/tp_mem_64X1024.v
+/storage1/2024contest/server2_06/s2_06_fe/Desktop/11_12/BARVINN_project/src/mvu/usr_mem/tp_mem_64X2048.v
+/storage1/2024contest/server2_06/s2_06_fe/Desktop/11_12/BARVINN_project/src/mvu/usr_mem/tp_mem_512X16.v
+/storage1/2024contest/server2_06/s2_06_fe/Desktop/11_12/BARVINN_project/src/mvu/usr_mem/tp_mem_512X4096.v
+/storage1/2024contest/server2_06/s2_06_fe/Desktop/11_12/BARVINN_project/src/mvu/usr_mem/tp_mem_1024X64.v
 
-/storage1/2024contest/server2_06/s2_06_fe/Desktop/11_12/BARVINN_project/src/mvu/sv/cf_math_pkg.sv
-/storage1/2024contest/server2_06/s2_06_fe/Desktop/11_12/BARVINN_project/src/mvu/sv/apb_test.sv
 /storage1/2024contest/server2_06/s2_06_fe/Desktop/11_12/BARVINN_project/src/mvu/sv/apb_pkg.sv
 /storage1/2024contest/server2_06/s2_06_fe/Desktop/11_12/BARVINN_project/src/mvu/sv/mvu_pkg.sv
-
-
-/storage1/2024contest/server2_06/s2_06_fe/Desktop/11_12/BARVINN_project/sim/src/mvu/utils.sv
-/storage1/2024contest/server2_06/s2_06_fe/Desktop/11_12/BARVINN_project/sim/src/mvu/testbench_pkg.sv
-
 
 /storage1/2024contest/server2_06/s2_06_fe/Desktop/11_12/BARVINN_project/src/mvu/v/bank64k.v
 /storage1/2024contest/server2_06/s2_06_fe/Desktop/11_12/BARVINN_project/src/mvu/v/cdru.v

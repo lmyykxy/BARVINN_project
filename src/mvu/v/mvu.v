@@ -282,13 +282,13 @@ always @(posedge clk) core_weights <= rdw_word;
 	tp_mem_512X4096 weights_bank(
 		.clk				(clk),
 	
-		.rd_en				(rd_en),
-		.rd_addr			(rd_addr),
-		.rd_word			(rd_word),
+		.rd_en				(rdw_en),
+		.rd_addr			(rdw_addr),
+		.rd_word			(rdw_word),
 	
-		.wr_en				(wr_en),
-		.wr_addr			(wr_addr),
-		.wr_word			(wr_word)
+		.wr_en				(wrw_en),
+		.wr_addr			(wrw_addr),
+		.wr_word			(wrw_word)
 	);
  `else
     ram_simple2port #(
@@ -312,13 +312,13 @@ always @(posedge clk) core_weights <= rdw_word;
 	tp_mem_64X1024 scaler_bank(
 		.clk				(clk),
 	
-		.rd_en				(rd_en),
-		.rd_addr			(rd_addr),
-		.rd_word			(rd_word),
+		.rd_en				(rds_en),
+		.rd_addr			(rds_addr),
+		.rd_word			(rds_word),
 	
-		.wr_en				(wr_en),
-		.wr_addr			(wr_addr),
-		.wr_word			(wr_word)
+		.wr_en				(wrs_en),
+		.wr_addr			(wrs_addr),
+		.wr_word			(wrs_word)
 	);
 `else
  ram_simple2port #(
@@ -343,13 +343,13 @@ always @(posedge clk) core_weights <= rdw_word;
 	tp_mem_64X2048 bias_bank(
 		.clk				(clk),
 	
-		.rd_en				(rd_en),
-		.rd_addr			(rd_addr),
-		.rd_word			(rd_word),
+		.rd_en				(rdb_en),
+		.rd_addr			(rdb_addr),
+		.rd_word			(rdb_word),
 	
-		.wr_en				(wr_en),
-		.wr_addr			(wr_addr),
-		.wr_word			(wr_word)
+		.wr_en				(wrb_en),
+		.wr_addr			(wrb_addr),
+		.wr_word			(wrb_word)
 	);
 `else
  ram_simple2port #(

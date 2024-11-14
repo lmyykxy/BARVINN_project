@@ -21,15 +21,17 @@ wire rd_enb = (rd_en && rd_addr[8:7] == 2'b01) ? 1'b1 : 1'b0;
 wire rd_enc = (rd_en && rd_addr[8:7] == 2'b10) ? 1'b1 : 1'b0;
 wire rd_end = (rd_en && rd_addr[8:7] == 2'b11) ? 1'b1 : 1'b0;
 
+wire [6:0] rdin_addr = rd_addr[6:0];
+wire [6:0] wrin_addr = wr_addr[6:0];
 
 RAMTP128X16 ua(
 	.CLKA		(clk),
-	.AA			(rd_addr),		// Read Address [6:0]
+	.AA			(rdin_addr),		// Read Address [6:0]
 	.QA			(rd_word),		// Data Outputs	 [15:0]
 	.CENA		(!rd_ena),		// Read Enables (Active Low)
 
 	.CLKB		(clk),
-	.AB			(wr_addr),		// Write Address [6:0]
+	.AB			(wrin_addr),		// Write Address [6:0]
 	.DB			(wr_word),		// DATA input	[15:0]
 	.CENB		(!wr_ena),		// Write Enables (Active Low)
 	.WENB		({16{1'd0}}),	// Write Enable [15:0] (Active Low)
@@ -41,12 +43,12 @@ RAMTP128X16 ua(
 );
 RAMTP128X16 ub(
 	.CLKA		(clk),
-	.AA			(rd_addr),		// Read Address [6:0]
+	.AA			(rdin_addr),		// Read Address [6:0]
 	.QA			(rd_word),		// Data Outputs	 [15:0]
 	.CENA		(!rd_enb),		// Read Enables (Active Low)
 
 	.CLKB		(clk),
-	.AB			(wr_addr),		// Write Address [6:0]
+	.AB			(wrin_addr),		// Write Address [6:0]
 	.DB			(wr_word),		// DATA input	[15:0]
 	.CENB		(!wr_enb),		// Write Enables (Active Low)
 	.WENB		({16{1'd0}}),	// Write Enable [15:0] (Active Low)
@@ -58,12 +60,12 @@ RAMTP128X16 ub(
 );
 RAMTP128X16 uc(
 	.CLKA		(clk),
-	.AA			(rd_addr),		// Read Address [6:0]
+	.AA			(rdin_addr),		// Read Address [6:0]
 	.QA			(rd_word),		// Data Outputs	 [15:0]
 	.CENA		(!rd_enc),		// Read Enables (Active Low)
 
 	.CLKB		(clk),
-	.AB			(wr_addr),		// Write Address [6:0]
+	.AB			(wrin_addr),		// Write Address [6:0]
 	.DB			(wr_word),		// DATA input	[15:0]
 	.CENB		(!wr_enc),		// Write Enables (Active Low)
 	.WENB		({16{1'd0}}),	// Write Enable [15:0] (Active Low)
@@ -75,12 +77,12 @@ RAMTP128X16 uc(
 );
 RAMTP128X16 ud(
 	.CLKA		(clk),
-	.AA			(rd_addr),		// Read Address [6:0]
+	.AA			(rdin_addr),		// Read Address [6:0]
 	.QA			(rd_word),		// Data Outputs	 [15:0]
 	.CENA		(!rd_end),		// Read Enables (Active Low)
 
 	.CLKB		(clk),
-	.AB			(wr_addr),		// Write Address [6:0]
+	.AB			(wrin_addr),		// Write Address [6:0]
 	.DB			(wr_word),		// DATA input	[15:0]
 	.CENB		(!wr_end),		// Write Enables (Active Low)
 	.WENB		({16{1'd0}}),	// Write Enable [15:0] (Active Low)
