@@ -61,6 +61,8 @@ end
   wire                         dma_icb_rsp_err;
   wire[`E203_XLEN-1:0]         dma_icb_rsp_rdata;
 
+  wire						   dma_irq;
+
   wire [31:0]					rom_sim_addr;
   wire [31:0]					rom_sim_data;
   wire							rom_sim_valid;
@@ -417,6 +419,8 @@ e203_soc_top u_e203_soc_top(
    .mvu_apb_pwdata      (mvu_apb_pwdata ),
    .mvu_apb_prdata      (mvu_apb_prdata ),
 
+   .mvu_irq				(mvu_irq[0]),
+
    .dma_icb_cmd_valid        (dma_icb_cmd_valid),
    .dma_icb_cmd_ready        (dma_icb_cmd_ready),
    .dma_icb_cmd_addr         (dma_icb_cmd_addr ),
@@ -427,7 +431,9 @@ e203_soc_top u_e203_soc_top(
    .dma_icb_rsp_valid        (dma_icb_rsp_valid),
    .dma_icb_rsp_ready        (dma_icb_rsp_ready),
    .dma_icb_rsp_err          (dma_icb_rsp_err  ),
-   .dma_icb_rsp_rdata        (dma_icb_rsp_rdata)
+   .dma_icb_rsp_rdata        (dma_icb_rsp_rdata),
+
+   .dma_irq					 (dma_irq)
 
 );
 

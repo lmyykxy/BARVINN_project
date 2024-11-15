@@ -66,6 +66,10 @@ module e203_subsys_plic(
   input  gpioA_irq,
   input  gpioB_irq,
 
+  input	 mvu_irq,
+
+  input	 dma_irq,
+
   input  clk,
   input  rst_n
   );
@@ -111,6 +115,8 @@ module e203_subsys_plic(
   wire plic_irq_i_13 = i2c1_mst_irq;
   wire plic_irq_i_14 = gpioA_irq;
   wire plic_irq_i_15 = gpioB_irq; 
+  wire plic_irq_i_16 = mvu_irq; 
+  wire plic_irq_i_17 = dma_irq; 
 
   sirv_plic_top u_sirv_plic_top(
     .clk             (clk   ),
@@ -142,6 +148,8 @@ module e203_subsys_plic(
     .io_devices_0_13 (plic_irq_i_13),
     .io_devices_0_14 (plic_irq_i_14),
     .io_devices_0_15 (plic_irq_i_15),
+    .io_devices_0_16 (plic_irq_i_16),
+    .io_devices_0_17 (plic_irq_i_17),
 
     .io_harts_0_0    (plic_ext_irq ) 
   );

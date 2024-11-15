@@ -95,6 +95,8 @@ module e203_soc_top(
   output [32-1:0]                mvu_apb_pwdata, 
   input  [32-1:0]                mvu_apb_prdata,
 
+  input							 mvu_irq,
+
   //////////////////////////////////////////////////////////
   output                         dma_icb_cmd_valid,
   input                          dma_icb_cmd_ready,
@@ -106,7 +108,9 @@ module e203_soc_top(
   input                          dma_icb_rsp_valid,
   output                         dma_icb_rsp_ready,
   input                          dma_icb_rsp_err,
-  input [`E203_XLEN-1:0]         dma_icb_rsp_rdata
+  input [`E203_XLEN-1:0]         dma_icb_rsp_rdata,
+
+  input							 dma_irq
 
 );
 
@@ -174,6 +178,8 @@ module e203_soc_top(
   .mvu_apb_pwdata          (mvu_apb_pwdata ),
   .mvu_apb_prdata          (mvu_apb_prdata ),
 
+  .mvu_irq				   (mvu_irq),
+
   .dma_icb_cmd_valid        (dma_icb_cmd_valid),
   .dma_icb_cmd_ready        (dma_icb_cmd_ready),
   .dma_icb_cmd_addr         (dma_icb_cmd_addr ),
@@ -185,6 +191,8 @@ module e203_soc_top(
   .dma_icb_rsp_ready        (dma_icb_rsp_ready),
   .dma_icb_rsp_err          (dma_icb_rsp_err  ),
   .dma_icb_rsp_rdata        (dma_icb_rsp_rdata),
+
+  .dma_irq					(dma_irq),
 
   .sysfio_icb_cmd_valid(sysfio_icb_cmd_valid),
   .sysfio_icb_cmd_ready(sysfio_icb_cmd_ready),

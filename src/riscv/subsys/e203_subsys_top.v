@@ -145,6 +145,7 @@ module e203_subsys_top(
   output                         mvu_apb_penable,
   output [32-1:0]                mvu_apb_pwdata, 
   input  [32-1:0]                mvu_apb_prdata, 
+  input							 mvu_irq,
   //////////////////////////////////////////////////////////////
   output                         dma_icb_cmd_valid,
   input                          dma_icb_cmd_ready,
@@ -157,6 +158,7 @@ module e203_subsys_top(
   output                         dma_icb_rsp_ready,
   input                          dma_icb_rsp_err,
   input [`E203_XLEN-1:0]         dma_icb_rsp_rdata,
+  input							 dma_irq,
   `ifdef E203_HAS_FIO //{
   //////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////
@@ -480,12 +482,17 @@ module e203_subsys_top(
     .dma_icb_rsp_err          (dma_icb_rsp_err  ),
     .dma_icb_rsp_rdata        (dma_icb_rsp_rdata),
 
+	.dma_irq					  (dma_irq),
+
     .mvu_apb_paddr                (mvu_apb_paddr  ),
     .mvu_apb_pwrite               (mvu_apb_pwrite ),
     .mvu_apb_pselx                (mvu_apb_pselx  ),
     .mvu_apb_penable              (mvu_apb_penable), 
     .mvu_apb_pwdata               (mvu_apb_pwdata ),
     .mvu_apb_prdata               (mvu_apb_prdata ),
+
+	.mvu_irq					  (mvu_irq),
+
 
     .sysfio_icb_cmd_valid     (sysfio_icb_cmd_valid),
     .sysfio_icb_cmd_ready     (sysfio_icb_cmd_ready),
