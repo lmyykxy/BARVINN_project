@@ -11,4 +11,5 @@
 
 // ------- riscv testbench top
 
+/home/qingteng/Documents/Front_end/BARVINN_project/sim/src/riscv/rom_sim.v
 /home/qingteng/Documents/Front_end/BARVINN_project/sim/src/riscv/riscv_top.v

@@ -1,6 +1,13 @@
 #ifndef __MVU_DEF_H__
 #define __MVU_DEF_H__
 
+
+#define dma_source_addr 		(uint32_t*)0x12200000
+#define dma_dest_addr			(uint32_t*)0x12200004
+#define dma_info_addr 			(uint32_t*)0x12200008
+#define dma_start_addr 			(uint32_t*)0x1220000C
+#define dma_status_addr 		(uint32_t*)0x12200010
+
 #define mvuwbaseptr   (uint32_t*)0x1210F200 // Base address for weight memory
 #define mvuibaseptr   (uint32_t*)0x1210F210 // Base address for input memory
 #define mvusbaseptr   (uint32_t*)0x1210F220 // Base address for scaler memory (6 bits)

@@ -49,6 +49,23 @@ end
   reg 	[1024-1:0]		wrb_word;
 
   //////////////////////////////////////////////////////////////
+  wire                         dma_icb_cmd_valid;
+  wire                         dma_icb_cmd_ready;
+  wire  [`E203_ADDR_SIZE-1:0]  dma_icb_cmd_addr; 
+  wire                         dma_icb_cmd_read; 
+  wire  [`E203_XLEN-1:0]       dma_icb_cmd_wdata;
+  wire  [`E203_XLEN/8-1:0]     dma_icb_cmd_wmask;
+
+  wire                         dma_icb_rsp_valid;
+  wire                         dma_icb_rsp_ready;
+  wire                         dma_icb_rsp_err;
+  wire[`E203_XLEN-1:0]         dma_icb_rsp_rdata;
+
+  wire [31:0]					rom_sim_addr;
+  wire [31:0]					rom_sim_data;
+  wire							rom_sim_valid;
+  wire							rom_sim_ready;
+  //////////////////////////////////////////////////////////////
 
   `define CPU_TOP u_e203_soc_top.u_e203_subsys_top.u_e203_subsys_main.u_e203_cpu_top
   `define EXU `CPU_TOP.u_e203_cpu.u_e203_core.u_e203_exu
@@ -293,39 +310,6 @@ end
 
 
   end
-  initial begin
-    #10
-	wrc_en = 1'b0;
-	wrc_addr = 15'b0;
-	wrc_word = 64'b0;
-
-	#100
-	@(posedge clk);
-	wrc_en = 1'b1;
-	wrc_addr = 15'd0;
-	wrc_word = 64'b1111101101000011110100110111010100000000111101000110101011110010;
-
-	@(posedge clk);
-	wrc_en = 1'b1;
-	wrc_addr = 15'd1;
-	wrc_word = 64'b0101100101111010111110100110110101011110011010000010011111110110;
-
-	@(posedge clk);
-	wrc_en = 1'b1;
-	wrc_addr = 15'd2;
-	wrc_word = 64'b0000001111011000010110101010001101111111001000111001000100000101;
-
-	@(posedge clk);
-	wrc_en = 1'b1;
-	wrc_addr = 15'd3;
-	wrc_word = 64'b1101111101010000010110001001011001001101111110100101100011000001;
-	
-	@(posedge clk);
-
-	wrc_en = 1'b0;
-	wrc_addr = 15'b0;
-	wrc_word = 64'b0;
-  end
 
   always
   begin 
@@ -431,7 +415,19 @@ e203_soc_top u_e203_soc_top(
    .mvu_apb_pselx       (mvu_apb_pselx  ),
    .mvu_apb_penable     (mvu_apb_penable), 
    .mvu_apb_pwdata      (mvu_apb_pwdata ),
-   .mvu_apb_prdata      (mvu_apb_prdata )
+   .mvu_apb_prdata      (mvu_apb_prdata ),
+
+   .dma_icb_cmd_valid        (dma_icb_cmd_valid),
+   .dma_icb_cmd_ready        (dma_icb_cmd_ready),
+   .dma_icb_cmd_addr         (dma_icb_cmd_addr ),
+   .dma_icb_cmd_read         (dma_icb_cmd_read ),
+   .dma_icb_cmd_wdata        (dma_icb_cmd_wdata),
+   .dma_icb_cmd_wmask        (dma_icb_cmd_wmask),
+   
+   .dma_icb_rsp_valid        (dma_icb_rsp_valid),
+   .dma_icb_rsp_ready        (dma_icb_rsp_ready),
+   .dma_icb_rsp_err          (dma_icb_rsp_err  ),
+   .dma_icb_rsp_rdata        (dma_icb_rsp_rdata)
 
 );
 
@@ -486,6 +482,47 @@ mvu_u_wrapper u_mvu_top(
 
 	.mvu_shacc_clr	(mvu_shacc_clr),
 	.mvu_irq		(mvu_irq)
+);
+
+mvu_dma_top u_mvu_dma_top(
+	.clk						(clk),
+	.rst_n						(rst_n),
+
+	.source_address				(rom_sim_addr),
+	.source_data				(rom_sim_data),
+	.source_valid				(rom_sim_valid),
+	.source_ready				(rom_sim_ready),
+
+	.dest_data_address			(wrc_addr),
+	.dest_data_data				(wrc_word),
+	.dest_data_valid			(wrc_en[0]),
+	.dest_data_ready			(wrc_grnt[0]),
+
+	.dest_weight_address		(),
+	.dest_weight_data			(),
+	.dest_weight_valid			(),
+	.dest_weight_ready			(1'b1),
+
+	.i_icb_cmd_valid			(dma_icb_cmd_valid),
+	.i_icb_cmd_ready			(dma_icb_cmd_ready),
+	.i_icb_cmd_addr				(dma_icb_cmd_addr), 
+	.i_icb_cmd_read				(dma_icb_cmd_read), 
+	.i_icb_cmd_wdata			(dma_icb_cmd_wdata),
+	.i_icb_cmd_wmask			(dma_icb_cmd_wmask),
+
+	.i_icb_rsp_valid			(dma_icb_rsp_valid),
+	.i_icb_rsp_ready			(dma_icb_rsp_ready),
+	.i_icb_rsp_err				(dma_icb_rsp_err),
+	.i_icb_rsp_rdata			(dma_icb_rsp_rdata),
+
+	.dma_irq					(dma_irq)
+);
+
+rom_sim u_rom_sim(
+    .source_address				(rom_sim_addr[7:0]),   		// 输入地址，假设8位地址
+    .source_data				(rom_sim_data),     		// 输出数据，假设16位数据宽度
+    .source_valid				(rom_sim_valid),           // 输入数据请求信号
+    .source_ready				(rom_sim_ready)            // 输出数据准备信号
 );
 
 endmodule

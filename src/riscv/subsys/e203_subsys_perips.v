@@ -62,6 +62,18 @@ module e203_subsys_perips(
   output [32-1:0]                mvu_apb_pwdata, 
   input  [32-1:0]                mvu_apb_prdata, 
   //////////////////////////////////////////////////////////
+  output                         dma_icb_cmd_valid,
+  input                          dma_icb_cmd_ready,
+  output  [`E203_ADDR_SIZE-1:0]  dma_icb_cmd_addr, 
+  output                         dma_icb_cmd_read, 
+  output  [`E203_XLEN-1:0]       dma_icb_cmd_wdata,
+  output  [`E203_XLEN/8-1:0]     dma_icb_cmd_wmask,
+  //
+  input                          dma_icb_rsp_valid,
+  output                         dma_icb_rsp_ready,
+  input                          dma_icb_rsp_err,
+  input [`E203_XLEN-1:0]         dma_icb_rsp_rdata,
+  //////////////////////////////////////////////////////////
   output                         aon_icb_cmd_valid,
   input                          aon_icb_cmd_ready,
   output [`E203_ADDR_SIZE-1:0]   aon_icb_cmd_addr, 
@@ -2005,6 +2017,18 @@ sirv_expl_axi_slv # (
     .extppi_icb_rsp_ready     (extppi_icb_rsp_ready),
     .extppi_icb_rsp_err       (extppi_icb_rsp_err  ),
     .extppi_icb_rsp_rdata     (extppi_icb_rsp_rdata),
+
+    .dma_icb_cmd_valid        (dma_icb_cmd_valid),
+    .dma_icb_cmd_ready        (dma_icb_cmd_ready),
+    .dma_icb_cmd_addr         (dma_icb_cmd_addr ),
+    .dma_icb_cmd_read         (dma_icb_cmd_read ),
+    .dma_icb_cmd_wdata        (dma_icb_cmd_wdata),
+    .dma_icb_cmd_wmask        (dma_icb_cmd_wmask),
+    
+    .dma_icb_rsp_valid        (dma_icb_rsp_valid),
+    .dma_icb_rsp_ready        (dma_icb_rsp_ready),
+    .dma_icb_rsp_err          (dma_icb_rsp_err  ),
+    .dma_icb_rsp_rdata        (dma_icb_rsp_rdata),
 
     .mvu_apb_paddr       (mvu_apb_paddr  ),
     .mvu_apb_pwrite      (mvu_apb_pwrite ),
