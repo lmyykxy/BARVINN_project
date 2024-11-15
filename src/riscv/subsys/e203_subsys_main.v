@@ -197,6 +197,8 @@ module e203_subsys_main(
   output [32-1:0]                mvu_apb_pwdata, 
   input  [32-1:0]                mvu_apb_prdata, 
 
+  input							 mvu_irq,
+
   //////////////////////////////////////////////////////////
   output                         dma_icb_cmd_valid,
   input                          dma_icb_cmd_ready,
@@ -209,6 +211,9 @@ module e203_subsys_main(
   output                         dma_icb_rsp_ready,
   input                          dma_icb_rsp_err,
   input [`E203_XLEN-1:0]         dma_icb_rsp_rdata,
+  
+  input							 dma_irq,
+
   `ifdef E203_HAS_FIO //{
   //////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////
@@ -692,6 +697,9 @@ module e203_subsys_main(
 
     .gpioA_irq              (gpioA_irq ),
     .gpioB_irq              (gpioB_irq ),
+
+	.mvu_irq				(mvu_irq ),
+	.dma_irq				(dma_irq ),
 
     .clk                    (hfclk  ),
     .rst_n                  (per_rst_n) 

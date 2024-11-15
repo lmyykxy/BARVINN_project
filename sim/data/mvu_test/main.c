@@ -5,6 +5,8 @@
 #include "hbird_sdk_soc.h"
 #include "mvu_def.h"
 
+volatile int mvu_irq_flag;
+volatile int dma_irq_flag;
 
 void write_mvu(volatile uint32_t* mvu_csr, uint32_t value)
 {
@@ -20,9 +22,30 @@ void delay_loop(unsigned long iterations) {
     while (iterations--);
 }
 
+void plic_mvu_handler(void)
+{
+    mvu_irq_flag = 1;
+	printf("Trigger MVU IRQ!!!!\r\n");
+}
+
+void plic_dma_handler(void)
+{
+    dma_irq_flag = 1;
+	printf("Trigger DMA IRQ!!!!\r\n");
+}
+
 int main(void)
 {
     printf("Hello World From RISC-V Processor!\r\n");
+
+    printf("Begin to config IRQ\r\n");
+	dma_irq_flag = 0;
+	mvu_irq_flag = 0;
+	int32_t returnCode = PLIC_Register_IRQ(PLIC_MVU0_IRQn, 1, plic_mvu_handler);
+	printf("mvu irq_ret_code:%d\r\n",returnCode);
+	returnCode = PLIC_Register_IRQ(PLIC_DMA_IRQn, 1, plic_dma_handler);
+	printf("dma irq_ret_code:%d\r\n",returnCode);
+	__enable_irq();
 
 	printf("------------------------------------------------\r\n");
 	printf("               Begin to move data               \r\n");
@@ -32,14 +55,18 @@ int main(void)
     write_dma(dma_dest_addr		, (uint32_t)0x00000000		);
     write_dma(dma_info_addr		, (uint32_t)0x00000001		);
     write_dma(dma_start_addr	, (uint32_t)0x00000001		);
-	delay_loop(100);
+	while(dma_irq_flag == 0);
+	printf("next\r\n");
+	dma_irq_flag = 0;
 
     write_dma(dma_source_addr	, (uint32_t)0x00000004		);
     write_dma(dma_dest_addr		, (uint32_t)0x00000000		);
     write_dma(dma_info_addr		, (uint32_t)0x00010001		);
     write_dma(dma_start_addr	, (uint32_t)0x00000001		);
 
-	delay_loop(1000);
+	while(dma_irq_flag == 0);
+	dma_irq_flag = 0;
+
 	printf("------------------------------------------------\r\n");
 	printf("               Begin to config MVU              \r\n");
 	printf("------------------------------------------------\r\n");	
@@ -105,6 +132,11 @@ int main(void)
 	write_mvu(mvuconfig1	, (uint32_t)0x00000301		);
 
 	write_mvu(mvucommand	, (uint32_t)0x40000004		);
+
+	while(mvu_irq_flag == 0);
+	mvu_irq_flag = 0;
+	
+	printf("Program finish!!!!\r\n");
 
     return 0;
 }
