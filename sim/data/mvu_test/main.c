@@ -6,19 +6,43 @@
 #include "mvu_def.h"
 
 
-void write_mvu(uint32_t* mvu_csr, uint32_t value)
+void write_mvu(volatile uint32_t* mvu_csr, uint32_t value)
 {
 	*mvu_csr = value;
+}
+
+void write_dma(volatile uint32_t* dma_reg, uint32_t value)
+{
+	*dma_reg = value;
+}
+
+void delay_loop(unsigned long iterations) {
+    while (iterations--);
 }
 
 int main(void)
 {
     printf("Hello World From RISC-V Processor!\r\n");
-    
-	
-	printf("------------------------------------------------");
-	printf("               Begin to config MVU              ");
-	printf("------------------------------------------------");	
+
+	printf("------------------------------------------------\r\n");
+	printf("               Begin to move data               \r\n");
+	printf("------------------------------------------------\r\n");
+
+    write_dma(dma_source_addr	, (uint32_t)0x00000000		);
+    write_dma(dma_dest_addr		, (uint32_t)0x00000000		);
+    write_dma(dma_info_addr		, (uint32_t)0x00000001		);
+    write_dma(dma_start_addr	, (uint32_t)0x00000001		);
+	delay_loop(100);
+
+    write_dma(dma_source_addr	, (uint32_t)0x00000004		);
+    write_dma(dma_dest_addr		, (uint32_t)0x00000000		);
+    write_dma(dma_info_addr		, (uint32_t)0x00010001		);
+    write_dma(dma_start_addr	, (uint32_t)0x00000001		);
+
+	delay_loop(1000);
+	printf("------------------------------------------------\r\n");
+	printf("               Begin to config MVU              \r\n");
+	printf("------------------------------------------------\r\n");	
 	write_mvu(mvuprecision	, (uint32_t)0x00008082		);
 
 	write_mvu(mvuwjump_0	, (uint32_t)0x00000002		);

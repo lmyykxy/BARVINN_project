@@ -93,7 +93,20 @@ module e203_soc_top(
   output                         mvu_apb_pselx,  
   output                         mvu_apb_penable,
   output [32-1:0]                mvu_apb_pwdata, 
-  input  [32-1:0]                mvu_apb_prdata
+  input  [32-1:0]                mvu_apb_prdata,
+
+  //////////////////////////////////////////////////////////
+  output                         dma_icb_cmd_valid,
+  input                          dma_icb_cmd_ready,
+  output  [`E203_ADDR_SIZE-1:0]  dma_icb_cmd_addr, 
+  output                         dma_icb_cmd_read, 
+  output  [`E203_XLEN-1:0]       dma_icb_cmd_wdata,
+  output  [`E203_XLEN/8-1:0]     dma_icb_cmd_wmask,
+  //
+  input                          dma_icb_rsp_valid,
+  output                         dma_icb_rsp_ready,
+  input                          dma_icb_rsp_err,
+  input [`E203_XLEN-1:0]         dma_icb_rsp_rdata
 
 );
 
@@ -160,6 +173,18 @@ module e203_soc_top(
   .mvu_apb_penable         (mvu_apb_penable), 
   .mvu_apb_pwdata          (mvu_apb_pwdata ),
   .mvu_apb_prdata          (mvu_apb_prdata ),
+
+  .dma_icb_cmd_valid        (dma_icb_cmd_valid),
+  .dma_icb_cmd_ready        (dma_icb_cmd_ready),
+  .dma_icb_cmd_addr         (dma_icb_cmd_addr ),
+  .dma_icb_cmd_read         (dma_icb_cmd_read ),
+  .dma_icb_cmd_wdata        (dma_icb_cmd_wdata),
+  .dma_icb_cmd_wmask        (dma_icb_cmd_wmask),
+  
+  .dma_icb_rsp_valid        (dma_icb_rsp_valid),
+  .dma_icb_rsp_ready        (dma_icb_rsp_ready),
+  .dma_icb_rsp_err          (dma_icb_rsp_err  ),
+  .dma_icb_rsp_rdata        (dma_icb_rsp_rdata),
 
   .sysfio_icb_cmd_valid(sysfio_icb_cmd_valid),
   .sysfio_icb_cmd_ready(sysfio_icb_cmd_ready),

@@ -18,6 +18,7 @@ FILELISTtb := ${FILELIST_DIR}/tb_filelist.f
 SIMV := ${RUN_DIR}/simv
 
 E203_INSTR_TESTCASE := ${PRESENT_DIR}/sim/data/mvu_test/helloworld
+E203_EXT_ROM_FILE := ${PRESENT_DIR}/sim/src/riscv/rom_data
 # E203_INSTR_TESTCASE := ${PRESENT_DIR}/sim/data/perips_test/helloworld
 # E203_INSTR_TESTCASE := ${PRESENT_DIR}/sim/data/rv32ui-p-add
 TOP_MODULE := riscv_top
@@ -45,10 +46,10 @@ comp:
 	cd ${RUN_DIR} && vcs -kdb $(COMP_OPT) $(INC_DIR) -f $(FILELISTmvu) -f $(FILELISTriscv) -f $(FILELISTtb) -top $(TOP_MODULE) | tee ${LOG_DIR}/compilation.log
 
 sim: comp 
-	cd ${RUN_DIR} && ${SIMV} +ntb_random_seed_automatic +TESTCASE=${E203_INSTR_TESTCASE}  | tee ${LOG_DIR}/simulation.log
+	cd ${RUN_DIR} && ${SIMV} +ntb_random_seed_automatic +TESTCASE=${E203_INSTR_TESTCASE} +ROM_FILE=${E203_EXT_ROM_FILE}  | tee ${LOG_DIR}/simulation.log
 
 sim_debug: comp
-	cd ${RUN_DIR} && ${SIMV} -gui +ntb_random_seed_automatic +TESTCASE=${E203_INSTR_TESTCASE}
+	cd ${RUN_DIR} && ${SIMV} -gui +ntb_random_seed_automatic +TESTCASE=${E203_INSTR_TESTCASE} +ROM_FILE=${E203_EXT_ROM_FILE} 
 
 verdi: sim
 	cd ${RUN_DIR} && verdi -sverilog +v2k $(INC_DIR) -f $(FILELISTmvu) -f $(FILELISTriscv) -f $(FILELISTtb) -ssf ${RUN_DIR}/${TOP_MODULE}.fsdb

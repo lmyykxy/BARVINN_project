@@ -41,6 +41,18 @@ module e203_subsys_extperips(
   output                         extppi_icb_rsp_err,
   output [`E203_XLEN-1:0]        extppi_icb_rsp_rdata,
 
+  output                         dma_icb_cmd_valid,
+  input                          dma_icb_cmd_ready,
+  output  [`E203_ADDR_SIZE-1:0]  dma_icb_cmd_addr, 
+  output                         dma_icb_cmd_read, 
+  output  [`E203_XLEN-1:0]       dma_icb_cmd_wdata,
+  output  [`E203_XLEN/8-1:0]     dma_icb_cmd_wmask,
+  //
+  input                          dma_icb_rsp_valid,
+  output                         dma_icb_rsp_ready,
+  input                          dma_icb_rsp_err,
+  input [`E203_XLEN-1:0]         dma_icb_rsp_rdata,
+
   output [32-1:0]                mvu_apb_paddr,  
   output                         mvu_apb_pwrite, 
   output                         mvu_apb_pselx,  
@@ -83,7 +95,7 @@ module e203_subsys_extperips(
   // There are several slaves for EXTPPI bus, including:
   //  * TEST                : 0x1200 0000 -- 0x120F FFFF
   //  * MVU			        : 0x1210 0000 -- 0x121F FFFF
-  //  * Preserved 2         : 0x1220 0000 -- 0x122F FFFF
+  //  * DMA         		: 0x1220 0000 -- 0x122F FFFF
   //  * Preserved 3         : 0x1230 0000 -- 0x123F FFFF
   //  * Preserved 4         : 0x1240 0000 -- 0x124F FFFF
   //  * Preserved 5         : 0x1250 0000 -- 0x125F FFFF
@@ -110,10 +122,10 @@ module e203_subsys_extperips(
   //  * EXTTEST     : 0x1200 0000 -- 0x120F FFFF
   .O0_BASE_ADDR       (32'h1200_0000),       
   .O0_BASE_REGION_LSB (20),
-  //  * Preserved 1 : 0x1210 0000 -- 0x121F FFFF
+  //  * MVU			: 0x1210 0000 -- 0x121F FFFF
   .O1_BASE_ADDR       (32'h1210_0000),       
   .O1_BASE_REGION_LSB (20),
-  //  * Preserved 2 : 0x1220 0000 -- 0x122F FFFF
+  //  DMA			: 0x1220 0000 -- 0x122F FFFF
   .O2_BASE_ADDR       (32'h1220_0000),       
   .O2_BASE_REGION_LSB (20),
   //  * Preserved 3 : 0x1230 0000 -- 0x123F FFFF
@@ -219,26 +231,26 @@ module e203_subsys_extperips(
     .o1_icb_rsp_rdata  (mvu_icb_rsp_rdata),
 
 
-  //  * Preserved 2      
-    .o2_icb_enable     (1'b0),
+  //  DMA    
+    .o2_icb_enable     (1'b1),
 
-    .o2_icb_cmd_valid  (),
-    .o2_icb_cmd_ready  (1'b0),
-    .o2_icb_cmd_addr   (),
-    .o2_icb_cmd_read   (),
-    .o2_icb_cmd_wdata  (),
-    .o2_icb_cmd_wmask  (),
+    .o2_icb_cmd_valid  (dma_icb_cmd_valid),
+    .o2_icb_cmd_ready  (dma_icb_cmd_ready),
+    .o2_icb_cmd_addr   (dma_icb_cmd_addr),
+    .o2_icb_cmd_read   (dma_icb_cmd_read),
+    .o2_icb_cmd_wdata  (dma_icb_cmd_wdata),
+    .o2_icb_cmd_wmask  (dma_icb_cmd_wmask),
     .o2_icb_cmd_lock   (),
     .o2_icb_cmd_excl   (),
     .o2_icb_cmd_size   (),
     .o2_icb_cmd_burst  (),
     .o2_icb_cmd_beat   (),
     
-    .o2_icb_rsp_valid  (1'b0),
-    .o2_icb_rsp_ready  (),
-    .o2_icb_rsp_err    (1'b0),
+    .o2_icb_rsp_valid  (dma_icb_rsp_valid),
+    .o2_icb_rsp_ready  (dma_icb_rsp_ready),
+    .o2_icb_rsp_err    (dma_icb_rsp_err),
     .o2_icb_rsp_excl_ok(1'b0),
-    .o2_icb_rsp_rdata  (32'b0),
+    .o2_icb_rsp_rdata  (dma_icb_rsp_rdata),
 
   //  * Preserved 3     
     .o3_icb_enable     (1'b0),
