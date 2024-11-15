@@ -34,7 +34,7 @@ localparam MVU_TRANSFER_READ 	= 3'b010;
 localparam MVU_TRANSFER_WRITE 	= 3'b100;
 
 wire [2:0]	dma_fsm_nxt, dma_fsm_r;
-sirv_gnrl_dfflr #(3)source_address_dfflr(1'b1, dma_fsm_nxt, dma_fsm_r, clk, rst_n);
+sirv_gnrl_dfflr #(3)dma_fsm_dfflr(1'b1, dma_fsm_nxt, dma_fsm_r, clk, rst_n);
 
 wire read_enough, write_enough, write_one_cycle;
 assign dma_fsm_nxt = (dma_fsm_r == MVU_IDLE && dma_transfer_start_i == 1'b1) ? MVU_TRANSFER_READ
