@@ -1,0 +1,6 @@
+[submodule "dep/BARVINN_sdk"]
+	path = dep/BARVINN_sdk
+	url = https://github.com/lmyykxy/BARVINN_sdk.git
+[submodule "dep/BARVINN_ONNX_sdk"]
+	path = dep/BARVINN_ONNX_sdk
+	url = https://github.com/lmyykxy/BARVINN_ONNX_sdk.git
