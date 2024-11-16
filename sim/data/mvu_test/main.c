@@ -53,13 +53,13 @@ int main(void)
 
     write_dma(dma_source_addr	, (uint32_t)0x00000000		);
     write_dma(dma_dest_addr		, (uint32_t)0x00000000		);
-    write_dma(dma_info_addr		, (uint32_t)0x00000001		);
+    write_dma(dma_info_addr		, (uint32_t)0x000000ff		);
     write_dma(dma_start_addr	, (uint32_t)0x00000001		);
 	while(dma_irq_flag == 0);
 	printf("next\r\n");
 	dma_irq_flag = 0;
 
-    write_dma(dma_source_addr	, (uint32_t)0x00000004		);
+    write_dma(dma_source_addr	, (uint32_t)0x00000100		);
     write_dma(dma_dest_addr		, (uint32_t)0x00000000		);
     write_dma(dma_info_addr		, (uint32_t)0x00010001		);
     write_dma(dma_start_addr	, (uint32_t)0x00000001		);
@@ -133,6 +133,16 @@ int main(void)
 
 	write_mvu(mvucommand	, (uint32_t)0x40000004		);
 
+	for (uint32_t i = 0; i < 63; i++)
+	{
+		while(mvu_irq_flag == 0);
+		mvu_irq_flag = 0;
+		write_mvu(mvuobaseptr	, (uint32_t)(0x00000400+8*(i+1))		);
+		write_mvu(mvuibaseptr	, (uint32_t)(0x00000000+2*(i+1))		);
+		write_mvu(mvucommand	, (uint32_t)0x40000004		);
+		printf("Start iter:%d",i+1);
+	}
+	
 	while(mvu_irq_flag == 0);
 	mvu_irq_flag = 0;
 	
